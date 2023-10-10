@@ -18,7 +18,7 @@ public class OrderTracker {
         productsToSell = new ArrayList<>(); // initialize this list as well to fix the NullPointerException issue
     }
 
-    @SuppressWarnings("methodlength")
+    @SuppressWarnings({"methodlength", "checkstyle:OperatorWrap", "checkstyle:SuppressWarnings"})
     public void start() {
         Scanner input = new Scanner(System.in);
 
@@ -69,7 +69,8 @@ public class OrderTracker {
                 if (orderToUpdate == null) {
                     System.out.println("No order found with ID: " + orderId);
                 } else {
-                    System.out.println("Enter new status # (1.PLACED, 2.PROCESSED, 3.SHIPPED, 4.DELIVERED, 5.COMPLETE):");
+                    System.out.println("Enter new status # " +
+                            "(1.PLACED, 2.PROCESSED, 3.SHIPPED, 4.DELIVERED, 5.COMPLETE):");
                     int statusNum = input.nextInt();
                     OrderStatus newStatus = OrderStatus.values()[statusNum - 1];
                     orderToUpdate.updateOrderStatus(newStatus);
@@ -87,7 +88,13 @@ public class OrderTracker {
                 // Code to view all active orders
                 System.out.println("Active orders:");
                 for (Order order : orders) {
-                    System.out.println("Order ID: " + order.getOrderID() + ", Product Details: " + order.getProductDetails() + ", Customer Details: " + order.getCustomerDetails() + ", Status: " + order.getOrderStatus());
+                    System.out.println("Order ID: " +
+                            order.getOrderID() +
+                            ", Product Details: " +
+                            order.getProductDetails() +
+                            ", Customer Details: " +
+                            order.getCustomerDetails() +
+                            ", Status: " + order.getOrderStatus());
                 }
 
             } else if (operation == 4) {
