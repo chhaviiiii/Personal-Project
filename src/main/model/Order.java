@@ -2,16 +2,16 @@ package model;
 
 import java.util.List;
 
-// Represents an Order which includes orderID, productDetails, customerDetails, orderStatus.
-// The product list to be sold can be defined and updated.
 public class Order {
-    private List<Product> productsToSell; // List of Products to be sold.
-    private String orderID; // Unique Identifier of the Order.
-    private final String productDetails; // Details of the Product.
-    private final String customerDetails; // Details of the Customer who placed the order.
-    private OrderStatus orderStatus; // Status of the order (eg. "Processed", "Shipped", "Delivered", "Complete")
+    private List<Product> productsToSell;
+    private String orderID;
+    private final String productDetails;
+    private final String customerDetails;
+    private OrderStatus orderStatus;
 
-    // Constructor method
+    // REQUIRES: orderID, productDetails, customerDetails, orderStatus, productsToSell must be non-null
+    // MODIFIES: this
+    // EFFECTS: Initializes the order
     public Order(String orderID,
                  String productDetails,
                  String customerDetails,
@@ -24,47 +24,57 @@ public class Order {
         this.productsToSell = productsToSell;
     }
 
-
-    // Returns the list of products to be sold.
+    // EFFECTS: Returns list of products to sell
     public List<Product> getProductsToSell() {
         return productsToSell;
     }
 
-    // Sets list of products to be sold.
+    // REQUIRES: productsToSell must be non-null
+    // MODIFIES: this
+    // EFFECTS: Sets the product list to the given list
     public void setProductsToSell(List<Product> productsToSell) {
         this.productsToSell = productsToSell;
     }
 
-    // Adds a product to the list of products to be sold.
+    // REQUIRES: product must be non-null
+    // MODIFIES: this
+    // EFFECTS: Adds a product to the product list
     public void addProductToSell(Product product) {
         this.productsToSell.add(product);
     }
 
-    // Removes a product from the list of products to be sold.
+    // REQUIRES: product must be non-null
+    // MODIFIES: this
+    // EFFECTS: Removes a product from the product list
     public void removeProductToSell(Product product) {
         this.productsToSell.remove(product);
     }
 
-    // Updates the status of the order.
+    // REQUIRES: newStatus must be non-null
+    // MODIFIES: this
+    // EFFECTS: Updates the order's status
     public void updateOrderStatus(OrderStatus newStatus) {
         this.orderStatus = newStatus;
     }
 
-    // Returns Customer Details
+    // EFFECTS: Returns customer details
     public String getCustomerDetails() {
         return customerDetails;
     }
 
-    // Returns Product Details
+
+    // EFFECTS: Returns product details
     public String getProductDetails() {
         return productDetails;
     }
 
-    // Returns the order ID.
+
+    // EFFECTS: Returns order ID
     public String getOrderID() {
         return orderID;
     }
 
+    // EFFECTS: Returns order status
     public OrderStatus getOrderStatus() {
         return this.orderStatus;
     }

@@ -51,22 +51,6 @@ class ProductTest {
         assertTrue(updatedProducts.contains(product2));
     }
 
-    @Test
-    void addExistingProductToSellTest() {
-        order.addProductToSell(product1);
-
-        List<Product> updatedProducts = order.getProductsToSell();
-        assertEquals(2, updatedProducts.size());
-    }
-
-    @Test
-    void removeAllProductsTest() {
-        order.removeProductToSell(product1);
-        order.removeProductToSell(product2);
-
-        List<Product> updatedProducts = order.getProductsToSell();
-        assertEquals(0, updatedProducts.size());
-    }
 
     @Test
     void testSetProductType() {

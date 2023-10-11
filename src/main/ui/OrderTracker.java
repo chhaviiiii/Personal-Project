@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+// EFFECTS: Initializes the Order Tracker with an empty list of orders
 public class OrderTracker {
     private final List<Order> orders;
 
