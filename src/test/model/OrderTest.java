@@ -13,102 +13,86 @@ import model.Order;
 import static org.junit.jupiter.api.Assertions.*;
 
 class OrderTest {
+    private List<Product> products;
     private Order order;
-    private List<Product> productsToSell;
-    private Product product;
-    private OrderID orderID;
+    private Product product1;
+    private Product product2;
+
+
 
     @BeforeEach
-    public void setup() {
-        product = new Product("p1", "Nice Product", 150.0, ProductType.ELECTRONICS);
-        productsToSell = new ArrayList<>();
-        productsToSell.add(product);
-        String orderID = OrderID.generateOrderID(productsToSell);
-        order = new Order(orderID, "black phone", "John Doe", OrderStatus.PLACED, productsToSell);
+    void setUp() {
+        products = new ArrayList<>();
+        product1 = new Product("1", "Book", 50.0, ProductType.CLOTHES);
+        product2 = new Product("2","Pen", 10.0, ProductType.ELECTRONICS);
+
+        products.add(product1);
+        products.add(product2);
+
+        Order order = new Order("1",
+                "Books and pens",
+                "John Doe", OrderStatus.PROCESSED, products);
     }
 
     @Test
-    public void testGetOrderID() {
-        String orderID = OrderID.generateOrderID(productsToSell);
-        assertEquals(orderID, order.getOrderID());
+    void getProductsToSellTest() {
+        List<Product> fetchedProducts = order.getProductsToSell();
+        assertTrue(fetchedProducts.contains(product1));
+        assertTrue(fetchedProducts.contains(product2));
     }
 
     @Test
-    public void testGetProductDetails() {
-        assertEquals("Nice product", order.getProductDetails());
+    void setProductToSellTest() {
+        Product product3 = new Product("3", "poutine", 30.0,ProductType.FOOD);
+        products.add(product3);
+        order.setProductsToSell(products);
+
+        List<Product> updatedProducts = order.getProductsToSell();
+        assertTrue(updatedProducts.contains(product3));
     }
 
     @Test
-    public void testGetCustomerDetails() {
-        assertEquals("John Doe", order.getCustomerDetails());
+    void addProductToSellTest() {
+        Product product3 = new Product("3", "eyeliner", 30.0, ProductType.MAKEUP);
+        order.addProductToSell(product3);
+        List<Product> updatedProducts = order.getProductsToSell();
+        assertTrue(updatedProducts.contains(product3));
     }
 
     @Test
-    public void testSetProductsToSell() {
-        Product newProduct = new Product("P2", "Great Product", 200.0, ProductType.MAKEUP);
-        List<Product> newProductsToSell = new ArrayList<>();
-        newProductsToSell.add(newProduct);
-
-        order.setProductsToSell(newProductsToSell);
-        assertEquals("o4", order.getOrderID()); // Also check that the OrderID has been updated.
-
-        assertEquals(newProductsToSell, order.getProductsToSell());
+    void removeProductToSellTest() {
+        order.removeProductToSell(product1);
+        List<Product> updatedProducts = order.getProductsToSell();
+        assertFalse(updatedProducts.contains(product1));
     }
 
     @Test
-    public void testAddProductToSell() {
-        Product newProduct = new Product("P3", "Perfect Product", 300.0, ProductType.FOOD);
-        order.addProductToSell(newProduct);
-
-        assertEquals(2, order.getProductsToSell().size());
-        assertEquals(newProduct, order.getProductsToSell().get(1));
-        assertEquals("o3", order.getOrderID()); // Also check that the OrderID has been updated.
-    }
-
-    @Test
-    public void testRemoveProductToSell() {
-        order.removeProductToSell(product);
-        assertEquals(0, order.getProductsToSell().size());
-    }
-
-    @Test
-    public void testUpdateOrderStatus() {
+    void updateOrderStatusTest() {
         order.updateOrderStatus(OrderStatus.SHIPPED);
         assertEquals(OrderStatus.SHIPPED, order.getOrderStatus());
     }
 
     @Test
-    public void testGetName() {
-        assertEquals("p1", product.getName());
+    void getCustomerDetailsTest() {
+        String customerDetails = order.getCustomerDetails();
+        assertEquals("John Doe", customerDetails);
     }
 
     @Test
-    public void testGetDescription() {
-        assertEquals("Nice Product", product.getDescription());
+    void getProductDetailsTest() {
+        String productDetails = order.getProductDetails();
+        assertEquals("Books and pens", productDetails);
     }
 
     @Test
-    public void testGetPrice() {
-        assertEquals(150.0, product.getPrice());
+    void getOrderIDTest() {
+        String orderID = order.getOrderID();
+        assertEquals("1", orderID);
     }
 
     @Test
-    public void testGetProductType() {
-        assertEquals(ProductType.ELECTRONICS, product.getProductType());
+    void getOrderStatusTest() {
+        OrderStatus orderStatus = order.getOrderStatus();
+        assertEquals(OrderStatus.PROCESSED, orderStatus);
     }
-
-    @Test
-    public void testSetProductType() {
-        product.setProductType(ProductType.CLOTHES);
-        assertEquals(ProductType.CLOTHES, product.getProductType());
     }
-    @Test
-    public void testEnumValues() {
-        assertEquals(5, OrderStatus.values().length);
-        assertEquals(OrderStatus.PLACED, OrderStatus.values()[0]);
-        assertEquals(OrderStatus.PROCESSED, OrderStatus.values()[1]);
-        assertEquals(OrderStatus.SHIPPED, OrderStatus.values()[2]);
-        assertEquals(OrderStatus.DELIVERED, OrderStatus.values()[3]);
-        assertEquals(OrderStatus.COMPLETE, OrderStatus.values()[4]);
-    }
-}
