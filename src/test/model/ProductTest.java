@@ -3,11 +3,16 @@ package model;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import model.ProductType;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class ProductTest {
     private Product testProduct;
+    private Order order;
+    private Product product1;
+    private Product product2;
+
 
     @BeforeEach
     void setUp() {
@@ -35,6 +40,33 @@ class ProductTest {
     @Test
     void testGetPrice() {
         assertEquals(10.00, testProduct.getPrice());
+    }
+
+    @Test
+    void removeProductNotInList() {
+        Product product3 = new Product("3", "lipstick", 30.0, ProductType.MAKEUP);
+        order.removeProductToSell(product3);
+
+        List<Product> updatedProducts = order.getProductsToSell();
+        assertTrue(updatedProducts.contains(product1));
+        assertTrue(updatedProducts.contains(product2));
+    }
+
+    @Test
+    void addExistingProductToSellTest() {
+        order.addProductToSell(product1);
+
+        List<Product> updatedProducts = order.getProductsToSell();
+        assertEquals(2, updatedProducts.size());
+    }
+
+    @Test
+    void removeAllProductsTest() {
+        order.removeProductToSell(product1);
+        order.removeProductToSell(product2);
+
+        List<Product> updatedProducts = order.getProductsToSell();
+        assertEquals(0, updatedProducts.size());
     }
 
 }
