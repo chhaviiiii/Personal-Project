@@ -97,4 +97,10 @@ class OrderIDTest {
         List<Product> nullList = null;
         assertEquals("o", OrderID.generateOrderID(nullList));
     }
+
+    @Test
+    void generateOrderID_forNullProductType() {
+        products.add(new Product("Shirt", "Blue shirt", 20, null));
+        assertEquals("o", OrderID.generateOrderID(products));
+    }
 }
