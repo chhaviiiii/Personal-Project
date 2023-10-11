@@ -9,6 +9,11 @@ public class OrderID {
     // If the product in the list is of ProductType.CLOTHES, orderID is set to "o1"; if the product type is
     // ProductType.ELECTRONICS, orderID is set to "o2"; if product type is ProductType.FOOD, orderID is "o3";
     // If it is ProductType.MAKEUP, orderID is "o4". Returns the final orderID string.
+
+    public String orderID() {
+        return "o";
+    }
+
     public static String generateOrderID(List<Product> products) {
         String orderID = "o";
         if (products == null) {

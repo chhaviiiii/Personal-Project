@@ -17,6 +17,13 @@ class OrderIDTest {
 
     }
     @Test
+    void testOrderID() {
+        OrderID orderID = new OrderID();
+        String result = orderID.orderID();
+        assertEquals("o", result);
+    }
+
+    @Test
     void testGenerateOrderID() {
         Product product1 = new Product("1", "Book", 50.0, ProductType.CLOTHES);
         Product product2 = new Product("2","Pen", 10.0, ProductType.ELECTRONICS);
