@@ -5,7 +5,9 @@ import java.util.List;
 public class OrderID {
     public static String generateOrderID(List<Product> products) {
         String orderID = "o";
-
+        if (products == null) {
+            return "o";
+        }
         for (Product product : products) {
             if (product.getProductType() == ProductType.CLOTHES) {
                 orderID = "o1";
