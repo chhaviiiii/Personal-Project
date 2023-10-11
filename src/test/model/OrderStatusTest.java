@@ -3,6 +3,7 @@ package model;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
+import java.util.ArrayList;
 
     class OrderStatusTest {
         private Order order;
@@ -19,9 +20,25 @@ import org.junit.jupiter.api.Test;
 
         @Test
         void checkAllOrderStatus() {
-            for (OrderStatus status : OrderStatus.values()) {
-                order.updateOrderStatus(status);
-                assertEquals(status, order.getOrderStatus());
-            }
+            Order order = new Order(
+                    "ID",
+                    "productsDetails",
+                    "customerDetails",
+                    OrderStatus.PLACED,
+                    new ArrayList<Product>()
+            );
+            assertEquals(OrderStatus.PLACED, order.getOrderStatus());
+
+            order.updateOrderStatus(OrderStatus.PROCESSED);
+            assertEquals(OrderStatus.PROCESSED, order.getOrderStatus());
+
+            order.updateOrderStatus(OrderStatus.SHIPPED);
+            assertEquals(OrderStatus.SHIPPED, order.getOrderStatus());
+
+            order.updateOrderStatus(OrderStatus.DELIVERED);
+            assertEquals(OrderStatus.DELIVERED, order.getOrderStatus());
+
+            order.updateOrderStatus(OrderStatus.COMPLETE);
+            assertEquals(OrderStatus.COMPLETE, order.getOrderStatus());
         }
     }
