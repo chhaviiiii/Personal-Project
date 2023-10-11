@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 
     class OrderStatusTest {
-        private Order order;
 
 
         @Test
@@ -25,7 +24,7 @@ import java.util.ArrayList;
                     "productsDetails",
                     "customerDetails",
                     OrderStatus.PLACED,
-                    new ArrayList<Product>()
+                    new ArrayList<>()
             );
             assertEquals(OrderStatus.PLACED, order.getOrderStatus());
 

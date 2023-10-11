@@ -101,7 +101,7 @@ class OrderIDTest {
 
     @Test
     void generateOrderID_nullList() {
-        List<Product> nullList = null;
+        List<Product> nullList  = null;
         assertEquals("o", OrderID.generateOrderID(nullList));
     }
 }

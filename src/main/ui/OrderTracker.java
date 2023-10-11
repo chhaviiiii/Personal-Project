@@ -26,10 +26,12 @@ public class OrderTracker {
 
         if (!input.hasNextInt()) {
             System.out.println("Invalid input, Please enter a valid number!");
-            input.next();
+            input.nextLine();
             return -1;
         }
-        return input.nextInt();
+        int result = input.nextInt();
+        input.nextLine();  // consume the remaining newline
+        return result;
     }
 
     public void createOrder(Scanner input) {
@@ -37,11 +39,13 @@ public class OrderTracker {
 
         boolean moreProducts = true;
         while (moreProducts) {
+            System.out.println("Enter product details: ");
             Product product = getProduct(input);
             if (product != null) {
                 productsToSell.add(product);
             }
 
+            System.out.println("Do you want to add more products?");
             moreProducts = askForMoreProducts(input);
         }
 
@@ -55,22 +59,29 @@ public class OrderTracker {
                 productsToSell);
         orders.add(newOrder);
         System.out.println("Order created successfully with Order ID: " + orderID);
+
+
     }
 
     private Product getProduct(Scanner input) {
         Product product = null;
 
-        input.nextLine();
+        input.nextLine(); // consume the leftover newline
+        System.out.println("Enter product name: ");
         String productName = input.nextLine();
+
+        System.out.println("Enter product description: ");
         String productDescription = input.nextLine();
 
-        double productPrice = getDouble(input, "Invalid input, Please enter a valid number!");
+        System.out.println("Enter product price: ");
+        double productPrice = getDouble(input);
         if (productPrice == -1) {
             return null;
         }
 
-        int productTypeIndex = getInt(input, "Invalid input, Please enter a valid number!", "Invalid option selected!");
-        if (productTypeIndex == -1 || productTypeIndex < 1 || productTypeIndex > 4) {
+        System.out.println("Enter product type # (1. CLOTHES, 2. ELECTRONICS, 3. FOOD, 4. MAKEUP): ");
+        int productTypeIndex = getInt(input);
+        if (productTypeIndex < 1 || productTypeIndex > 4) {
             return product;
         }
 
@@ -80,24 +91,24 @@ public class OrderTracker {
         return product;
     }
 
-    private double getDouble(Scanner input, String errorMessage) {
+    private double getDouble(Scanner input) {
         if (!input.hasNextDouble()) {
-            System.out.println(errorMessage);
+            System.out.println("Invalid input, Please enter a valid number!");
             input.next();
             return -1;
         }
         return input.nextDouble();
     }
 
-    private int getInt(Scanner input, String invalidInputMessage, String invalidOptionMessage) {
+    private int getInt(Scanner input) {
         if (!input.hasNextInt()) {
-            System.out.println(invalidInputMessage);
+            System.out.println("Invalid input, Please enter a valid number!");
             input.next();
             return -1;
         }
         int number = input.nextInt();
         if (!(number >= 1 && number <= 4)) {
-            System.out.println(invalidOptionMessage);
+            System.out.println("Invalid option selected!");
             return -1;
         }
         return number;
@@ -105,15 +116,14 @@ public class OrderTracker {
 
     private boolean askForMoreProducts(Scanner input) {
         System.out.println("Do you want to add more product? enter (1 for Yes / 2 for No)");
-
-        int addMoreProductsNum = getInt(input,
-                "Invalid input, Please enter a valid number!",
-                "Invalid option selected!");
+        int addMoreProductsNum = getInt(input
+        );
+        input.nextLine(); // consume the remaining newline
         return addMoreProductsNum == 1;
     }
 
     private String getCustomerDetails(Scanner input) {
-        input.nextLine();
+        System.out.println("Enter customer details:");
         return input.nextLine();
     }
 
@@ -179,16 +189,13 @@ public class OrderTracker {
             } else if (operation == 3) {
                 viewAllActiveOrders();
             } else if (operation == 4) {
+                exit(input);
                 runTracker = false;
             } else {
                 System.out.println("Invalid Option Selected!");
             }
         }
 
-
-        if (input != null) {
-            input.close();
-        }
     }
 }
 
