@@ -69,4 +69,10 @@ class ProductTest {
         assertEquals(0, updatedProducts.size());
     }
 
+    @Test
+    void testSetProductType() {
+        testProduct.setProductType(ProductType.ELECTRONICS);
+        assertEquals(ProductType.ELECTRONICS, testProduct.getProductType());
+    }
+
 }
