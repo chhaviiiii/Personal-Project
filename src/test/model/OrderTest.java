@@ -76,4 +76,39 @@ class OrderTest {
         order.updateOrderStatus(OrderStatus.SHIPPED);
         assertEquals(OrderStatus.SHIPPED, order.getOrderStatus());
     }
+
+    @Test
+    public void testGetName() {
+        assertEquals("p1", product.getName());
+    }
+
+    @Test
+    public void testGetDescription() {
+        assertEquals("Nice Product", product.getDescription());
+    }
+
+    @Test
+    public void testGetPrice() {
+        assertEquals(150.0, product.getPrice());
+    }
+
+    @Test
+    public void testGetProductType() {
+        assertEquals(ProductType.ELECTRONICS, product.getProductType());
+    }
+
+    @Test
+    public void testSetProductType() {
+        product.setProductType(ProductType.CLOTHES);
+        assertEquals(ProductType.CLOTHES, product.getProductType());
+    }
+    @Test
+    public void testEnumValues() {
+        assertEquals(5, OrderStatus.values().length);
+        assertEquals(OrderStatus.PLACED, OrderStatus.values()[0]);
+        assertEquals(OrderStatus.PROCESSED, OrderStatus.values()[1]);
+        assertEquals(OrderStatus.SHIPPED, OrderStatus.values()[2]);
+        assertEquals(OrderStatus.DELIVERED, OrderStatus.values()[3]);
+        assertEquals(OrderStatus.COMPLETE, OrderStatus.values()[4]);
+    }
 }
