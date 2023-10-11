@@ -11,8 +11,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class OrderTracker {
-    private List<Order> orders;
-    private List<Product> productsToSell;
+    private final List<Order> orders;
 
     @SuppressWarnings("methodlength")
     public OrderTracker() {
@@ -41,7 +40,7 @@ public class OrderTracker {
 
             if (operation == 1) {
                 // Code to create an order
-                productsToSell = new ArrayList<>();
+                List<Product> productsToSell = new ArrayList<>();
                 boolean moreProducts = true;
                 while (moreProducts) {
                     input.nextLine();

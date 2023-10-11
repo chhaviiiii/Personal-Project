@@ -2,9 +2,9 @@ package model;
 
 // This represents a Product with a name and a description
 public class Product {
-    private String name;
-    private String description;
-    private double price;
+    private final String name;
+    private final String description;
+    private final double price;
     private ProductType productType;
 
     // Constructor

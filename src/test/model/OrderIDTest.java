@@ -69,4 +69,25 @@ class OrderIDTest {
     void generateOrderID_forEmptyList() {
         assertEquals("o", OrderID.generateOrderID(products));
     }
+    @Test
+    void testGenerateOrderID_withMultipleDifferentProducts() {
+        products.add(new Product("1", "Shirt", 50, ProductType.CLOTHES));
+        products.add(new Product("2", "Laptop", 1000, ProductType.ELECTRONICS));
+        products.add(new Product("3", "Apple", 1, ProductType.FOOD));
+        assertEquals("o3", OrderID.generateOrderID(products)); // or whatever logic you have for multiple different type products
+    }
+
+    @Test
+    void testGenerateOrderID_withMultipleSameProducts() {
+        products.add(new Product("1", "Shirt", 50, ProductType.CLOTHES));
+        products.add(new Product("2", "Pants", 40, ProductType.CLOTHES));
+        assertEquals("o1", OrderID.generateOrderID(products));
+    }
+
+
+    @Test
+    void testGenerateOrderID_withInvalidProductType() {
+        products.add(new Product("1", "Shirt", 50, null));
+        assertEquals("o", OrderID.generateOrderID(products));
+    }
 }

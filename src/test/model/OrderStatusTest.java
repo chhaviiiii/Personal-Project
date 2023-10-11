@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
     class OrderStatusTest {
         private Order order;
 
+
         @Test
         void testOrderStatus() {
             assertEquals(0, OrderStatus.PLACED.ordinal());

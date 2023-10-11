@@ -1,7 +1,6 @@
 package model;
 
 import java.util.List;
-import model.ProductType;
 
 public class OrderID {
     public static String generateOrderID(List<Product> products) {
