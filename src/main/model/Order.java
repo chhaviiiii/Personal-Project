@@ -6,7 +6,7 @@ import java.util.List;
 // The product list to be sold can be defined and updated.
 public class Order {
     private List<Product> productsToSell; // List of Products to be sold.
-    private final String orderID; // Unique Identifier of the Order.
+    private String orderID; // Unique Identifier of the Order.
     private final String productDetails; // Details of the Product.
     private final String customerDetails; // Details of the Customer who placed the order.
     private OrderStatus orderStatus; // Status of the order (eg. "Processed", "Shipped", "Delivered", "Complete")

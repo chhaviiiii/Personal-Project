@@ -4,11 +4,15 @@ package model;
 public class Product {
     private String name;
     private String description;
+    private double price;
+    private ProductType productType;
 
     // Constructor
-    public Product(String name, String description, double v) {
+    public Product(String name, String description, double price, ProductType productType) {
         this.name = name;
         this.description = description;
+        this.price = price;
+        this.productType = productType;
     }
 
     // Getters
@@ -18,5 +22,17 @@ public class Product {
 
     public String getDescription() {
         return description;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public ProductType getProductType() {
+        return productType;
+    }
+
+    public void setProductType(ProductType productType) {
+        this.productType = productType;
     }
 }

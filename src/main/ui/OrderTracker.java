@@ -1,8 +1,10 @@
 package ui;
 
 import model.Order;
+import model.OrderID;
 import model.OrderStatus;
 import model.Product;
+import model.ProductType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +17,6 @@ public class OrderTracker {
     @SuppressWarnings("methodlength")
     public OrderTracker() {
         orders = new ArrayList<>();
-        productsToSell = new ArrayList<>(); // initialize this list as well to fix the NullPointerException issue
     }
 
     @SuppressWarnings({"methodlength", "checkstyle:OperatorWrap", "checkstyle:SuppressWarnings"})
@@ -26,32 +27,51 @@ public class OrderTracker {
 
         boolean runTracker = true;
         while (runTracker) {
-            System.out.println("\n(OrderID: o1) Please select an option: ");
+            System.out.println("\n Please select an option: ");
             System.out.println("1. Create an order");
             System.out.println("2. Update an order status");
             System.out.println("3. View all active orders");
             System.out.println("4. Exit");
 
-            while (!input.hasNextInt()) {
+            if (!input.hasNextInt()) {
                 System.out.println("Invalid input, Please enter a valid number!");
                 input.next();
             }
             int operation = input.nextInt();
 
             if (operation == 1) {
-
                 // Code to create an order
-                input.nextLine();
-                System.out.println("Enter product details:");
-                String productDetails = input.nextLine();
+                productsToSell = new ArrayList<>();
+                boolean moreProducts = true;
+                while (moreProducts) {
+                    input.nextLine();
+                    System.out.println("Enter product name:");
+                    String productName = input.nextLine();
+                    System.out.println("Enter product description:");
+                    String productDescription = input.nextLine();
+                    System.out.println("Enter product price:");
+                    double productPrice = input.nextDouble();
+                    System.out.println("Enter product type # ( 1.CLOTHES, 2.ELECTRONICS, 3.FOOD, 4.MAKEUP):");
+                    int productTypeIndex = input.nextInt();
+                    ProductType productType = ProductType.values()[productTypeIndex - 1];
+                    Product product = new Product(productName, productDescription, productPrice, productType);
+                    productsToSell.add(product);
+                    System.out.println("Do you want to add more product? enter (1 for Yes / 2 for No)");
+                    moreProducts = input.nextInt() == 1;
+                }
+
                 System.out.println("Enter customer details:");
+                input.nextLine();
                 String customerDetails = input.nextLine();
-                // Create a new order with a predefined ID and status of PROCESSING
-
-                Order newOrder = new Order("o1", productDetails, customerDetails, OrderStatus.PLACED, productsToSell);
+                String orderID = OrderID.generateOrderID(productsToSell);
+                Order newOrder = new Order(orderID,
+                        "Products in Order: " +
+                                productsToSell.size(),
+                        customerDetails,
+                        OrderStatus.PLACED,
+                        productsToSell);
                 orders.add(newOrder);
-
-                System.out.println("Order created successfully.");
+                System.out.println("Order created successfully with Order ID: " + orderID);
 
             } else if (operation == 2) {
 
