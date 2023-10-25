@@ -14,9 +14,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+// Represents a reader that loads JSON representation of an order tracker to a file
 public class OrderReader {
     private String source;
 
+    // REQUIRES: A valid file path or source to read order data from.
+    // EFFECTS: Initializes an OrderReader object with the provided source.
     public OrderReader(String source) {
         this.source = source;
     }
@@ -36,7 +39,8 @@ public class OrderReader {
         }
     }
 
-
+    // REQUIRES: A valid file path or source.
+    // EFFECTS : Reads the content of the file specified by the source and returns it as a single string.
     private String readFile(String source) throws FileNotFoundException {
         StringBuilder contentBuilder = new StringBuilder();
 

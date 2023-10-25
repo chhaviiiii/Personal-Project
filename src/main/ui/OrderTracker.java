@@ -71,8 +71,7 @@ public class OrderTracker {
         Order newOrder = new Order(orderID, " (in Order): "
                 + productsToSell.size(),
                 customerDetails,
-                OrderStatus.PLACED,
-                productsToSell);
+                OrderStatus.PLACED, productsToSell);
         orders.add(newOrder);
         System.out.println("Order created successfully with Order ID: " + orderID);
 
@@ -163,9 +162,11 @@ public class OrderTracker {
     public void viewAllActiveOrders() {
         System.out.println("Active orders:");
         for (Order order : orders) {
-            System.out.println("Order ID: " + order.getOrderID()
-                    + ", Product Details: " + order.getProductDetails()
-                    + ", Customer Details: " + order.getCustomerDetails()
+            System.out.println("Order ID: " + order.getOrderID() + ","
+                    + "Product Details: "
+                    + order.getProductDetails()
+                    + ", Customer Details: "
+                    + order.getCustomerDetails()
                     + ", Status: " + order.getOrderStatus());
         }
     }
@@ -223,7 +224,7 @@ public class OrderTracker {
             if (orders != null) {
                 orders.clear(); // Clear existing orders
                 orders.addAll(orders);
-                System.out.println("Loaded active orders successfully from " +  JSON_STORE);
+                System.out.println("Loaded active orders successfully from " + JSON_STORE);
             } else {
                 System.out.println("No valid orders found in the file.");
             }
@@ -233,8 +234,6 @@ public class OrderTracker {
             System.out.println("Error: Invalid JSON format. " + e.getMessage());
         }
     }
-
-
 
 
     // REQUIRES: A Scanner input object for user interaction.

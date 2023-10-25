@@ -11,29 +11,32 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.AfterEach;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 
 public class OrderReaderTest {
-        private OrderReader orderReader;
-        private String testFilePath;
+    private OrderReader orderReader;
+    private String testFilePath;
+    private OrderWriter orderWriter;
 
-        @BeforeEach
-        public void setUp() {
-            testFilePath = "test_orders.json"; // Use a test file path
-            orderReader = new OrderReader(testFilePath);
-        }
+    @BeforeEach
+    public void setUp() {
+        testFilePath = "test_orders.json"; // Use a test file path
+        orderReader = new OrderReader(testFilePath);
+        orderWriter = new OrderWriter(testFilePath);
+    }
 
-        @AfterEach
-        public void tearDown() {
-            // Clean up the test file after each test
-            File testFile = new File(testFilePath);
-            if (testFile.exists()) {
-                testFile.delete();
-            }
+    @AfterEach
+    public void tearDown() {
+        // Clean up the test file after each test
+        File testFile = new File(testFilePath);
+        if (testFile.exists()) {
+            testFile.delete();
         }
+    }
 
     @Test
     public void testParseOrdersValidJson() {
@@ -90,18 +93,7 @@ public class OrderReaderTest {
 
 
     @Test
-        public void testReadEmptyOrders() {
-            createTestJsonFile("[]");
-
-            try {
-                List<Order> orders = orderReader.read();
-                assertTrue(orders.isEmpty());
-            } catch (FileNotFoundException e) {
-                fail("Test failed: " + e.getMessage());
-            }
-        }
-    @Test
-        public void testReadMultipleOrders() {
+    public void testReadMultipleOrders() {
         createTestJsonFile("{\"orderID\":\"1\",\"...\"},{\"orderID\":\"2\",\"...\"}," +
                 "{\"orderID\":\"3\",\"...\"}");
 
@@ -114,7 +106,7 @@ public class OrderReaderTest {
     }
 
     @Test
-        public void testReadOrdersWithDifferentProductTypes() {
+    public void testReadOrdersWithDifferentProductTypes() {
         createTestJsonFile("{\"orderID\":\"1\",\"...\"},{\"orderID\":\"2\",\"...\"}");
 
         try {
@@ -132,24 +124,60 @@ public class OrderReaderTest {
 
 
     @Test
-        public void testReadInvalidJson() {
-            createTestJsonFile("Invalid JSON");
+    public void testReadInvalidJson() {
+        createTestJsonFile("Invalid JSON");
 
-            try {
-                List<Order> orders = orderReader.read();
-                assertTrue(orders.isEmpty());
-            } catch (FileNotFoundException e) {
-                fail("Test failed: " + e.getMessage());
-            }
+        try {
+            List<Order> orders = orderReader.read();
+            assertTrue(orders.isEmpty());
+        } catch (FileNotFoundException e) {
+            fail("Test failed: " + e.getMessage());
         }
-
-        private void createTestJsonFile(String jsonData) {
-            try (PrintWriter writer = new PrintWriter(new FileWriter(testFilePath))) {
-                writer.write(jsonData);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
     }
+
+    private void createTestJsonFile(String jsonData) {
+        try (PrintWriter writer = new PrintWriter(new FileWriter(testFilePath))) {
+            writer.write(jsonData);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    @Test
+    public void testReadEmptyOrders() {
+        // Create an empty list of orders and write it to a file
+        List<Order> expectedOrders = new ArrayList<>();
+        orderWriter.write(expectedOrders);
+
+        // Read the orders from the file
+        try {
+            List<Order> actualOrders = orderReader.read();
+
+            // Verify that the read orders are empty
+            assertTrue(actualOrders.isEmpty());
+        } catch (FileNotFoundException e) {
+            fail("Test failed: " + e.getMessage());
+        }
+    }
+
+    private List<Order> createSampleOrders() {
+        List<Order> orders = new ArrayList<>();
+        // Create some sample orders here
+        Order order1 = new Order("1",
+                "Product1",
+                "Customer1",
+                OrderStatus.PLACED,
+                new ArrayList<>());
+        Order order2 = new Order("2",
+                "Product2",
+                "Customer2",
+                OrderStatus.SHIPPED,
+                new ArrayList<>());
+        orders.add(order1);
+        orders.add(order2);
+        return orders;
+    }
+
+}
 

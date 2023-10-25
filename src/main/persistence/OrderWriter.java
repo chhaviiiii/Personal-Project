@@ -4,7 +4,9 @@ import model.Order;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.List;
 
 // Represents a writer that writes JSON representation of an order tracker to a file
@@ -49,7 +51,6 @@ public class OrderWriter {
             close();  // Ensure the writer is closed after writing
         }
     }
-
 
 
     // MODIFIES: this
