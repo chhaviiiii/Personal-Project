@@ -1,10 +1,15 @@
 package model;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+import persistence.Writable;
+
 import java.util.List;
 
-public class Order {
+// This represents an order with an ID, status and description.
+public class Order implements Writable {
     private List<Product> productsToSell;
-    private String orderID;
+    private final String orderID;
     private final String productDetails;
     private final String customerDetails;
     private OrderStatus orderStatus;
@@ -65,7 +70,7 @@ public class Order {
 
     // EFFECTS: Returns product details
     public String getProductDetails() {
-        return productDetails;
+        return Product.getDescription();
     }
 
 
@@ -78,4 +83,33 @@ public class Order {
     public OrderStatus getOrderStatus() {
         return this.orderStatus;
     }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("orderID", orderID);
+        json.put("productDetails", productDetails);
+        json.put("customerDetails", customerDetails);
+        json.put("orderStatus", orderStatus.toString());
+        json.put("productsToSell", productsToJson());
+
+        return json;
+    }
+
+    private JSONArray productsToJson() {
+        JSONArray jsonArray = new JSONArray();
+
+        for (Product product : productsToSell) {
+            jsonArray.put(product.toJson());
+        }
+
+        return jsonArray;
+    }
 }
+
+
+
+
+
+
+

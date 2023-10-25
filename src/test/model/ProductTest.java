@@ -21,7 +21,7 @@ class ProductTest {
     @Test
     void testConstructor() {
         assertEquals("Test Product", testProduct.getName());
-        assertEquals("A product for testing", testProduct.getDescription());
+        assertEquals("A product for testing", Product.getDescription());
         assertEquals(10.00, testProduct.getPrice());
         assertEquals(ProductType.ELECTRONICS, testProduct.getProductType());
     }
@@ -33,7 +33,7 @@ class ProductTest {
 
     @Test
     void testGetDescription() {
-        assertEquals("A product for testing", testProduct.getDescription());
+        assertEquals("A product for testing", Product.getDescription());
     }
 
     @Test

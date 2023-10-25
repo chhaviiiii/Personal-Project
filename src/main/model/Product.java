@@ -1,9 +1,12 @@
 package model;
 
+import org.json.JSONObject;
+import persistence.Writable;
+
 // This represents a product with a name and description
-public class Product {
+public class Product implements Writable {
     private final String name;
-    private final String description;
+    private static String description;
     private final double price;
     private ProductType productType;
 
@@ -12,7 +15,7 @@ public class Product {
     // EFFECTS: Initializes a new Product with the given name, description, price, and product type
     public Product(String name, String description, double price, ProductType productType) {
         this.name = name;
-        this.description = description;
+        Product.description = description;
         this.price = price;
         this.productType = productType;
     }
@@ -25,7 +28,7 @@ public class Product {
 
 
     // EFFECTS: Returns the product's description
-    public String getDescription() {
+    public static String getDescription() {
         return description;
     }
 
@@ -46,5 +49,15 @@ public class Product {
     // EFFECTS: Sets the product's type to the given productType
     public void setProductType(ProductType productType) {
         this.productType = productType;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("name", name);
+        json.put("description", description);
+        json.put("price", price);
+        json.put("productType", productType.toString());
+        return json;
     }
 }
