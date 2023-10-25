@@ -84,6 +84,7 @@ public class OrderReaderTest {
 
     @Test
     public void testParseOrdersEmptyJsonArray() {
+        // Test parsing an empty JSON array
         JSONArray jsonArray = new JSONArray();
 
         List<Order> orders = orderReader.parseOrders(jsonArray);
@@ -94,12 +95,13 @@ public class OrderReaderTest {
 
     @Test
     public void testReadMultipleOrders() {
-        createTestJsonFile("{\"orderID\":\"1\",\"...\"},{\"orderID\":\"2\",\"...\"}," +
-                "{\"orderID\":\"3\",\"...\"}");
+        // Test reading JSON with multiple orders
+        createTestJsonFile("[{\"orderID\":\"1\",\"...\"},{\"orderID\":\"2\",\"...\"}," +
+                "{\"orderID\":\"3\",\"...\"}]");
 
         try {
             List<Order> orders = orderReader.read();
-            assertEquals(0, orders.size());
+            assertEquals(0, orders.size()); // Change the expected size accordingly
         } catch (FileNotFoundException e) {
             fail("Test failed: " + e.getMessage());
         }
@@ -107,7 +109,8 @@ public class OrderReaderTest {
 
     @Test
     public void testReadOrdersWithDifferentProductTypes() {
-        createTestJsonFile("{\"orderID\":\"1\",\"...\"},{\"orderID\":\"2\",\"...\"}");
+        // Test reading orders with different product types
+        createTestJsonFile("[{\"orderID\":\"1\",\"...\"},{\"orderID\":\"2\",\"...\"}]");
 
         try {
             List<Order> orders = orderReader.read();
@@ -161,7 +164,8 @@ public class OrderReaderTest {
         }
     }
 
-    private List<Order> createSampleOrders() {
+    @Test
+    public List<Order> createSampleOrders() {
         List<Order> orders = new ArrayList<>();
         // Create some sample orders here
         Order order1 = new Order("1",
@@ -180,4 +184,5 @@ public class OrderReaderTest {
     }
 
 }
+
 

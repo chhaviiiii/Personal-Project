@@ -4,7 +4,6 @@ import model.Order;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -24,7 +23,7 @@ public class OrderWriter {
     // EFFECTS: Opens the writer; throws FileNotFoundException if the destination file cannot
     // be opened for writing
     public void open() throws FileNotFoundException {
-        writer = new PrintWriter(new File(destination));
+        writer = new PrintWriter(destination);
     }
 
     // MODIFIES: this

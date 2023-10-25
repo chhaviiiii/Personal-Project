@@ -219,11 +219,11 @@ public class OrderTracker {
     // EFFECTS: Loads active orders from a JSON file
     public void loadActiveOrders() {
         try {
-            List<Order> orders = jsonReader.read();
+            List<Order> loadedOrders = jsonReader.read();
 
-            if (orders != null) {
+            if (loadedOrders != null) {
                 orders.clear(); // Clear existing orders
-                orders.addAll(orders);
+                orders.addAll(loadedOrders); // Add the loaded orders to the existing list
                 System.out.println("Loaded active orders successfully from " + JSON_STORE);
             } else {
                 System.out.println("No valid orders found in the file.");

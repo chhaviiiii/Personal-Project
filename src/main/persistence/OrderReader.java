@@ -14,17 +14,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-// Represents a reader that loads JSON representation of an order tracker to a file
 public class OrderReader {
     private String source;
 
-    // REQUIRES: A valid file path or source to read order data from.
-    // EFFECTS: Initializes an OrderReader object with the provided source.
     public OrderReader(String source) {
         this.source = source;
     }
 
-    // EFFECTS: reads orders from the file and returns them
     public List<Order> read() throws FileNotFoundException {
         try {
             String jsonData = readFile(source);
@@ -32,30 +28,24 @@ public class OrderReader {
             JSONArray jsonArray = jsonObject.getJSONArray("orders");
             return parseOrders(jsonArray);
         } catch (JSONException e) {
-            // Handle the exception here (e.g., log an error message)
             System.err.println("Error reading JSON: " + e.getMessage());
-            // You might return an empty list or null to indicate an error
             return new ArrayList<>();
         }
     }
 
-    // REQUIRES: A valid file path or source.
-    // EFFECTS : Reads the content of the file specified by the source and returns it as a single string.
     private String readFile(String source) throws FileNotFoundException {
         StringBuilder contentBuilder = new StringBuilder();
 
         try (Scanner scanner = new Scanner(new File(source))) {
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
-                contentBuilder.append(line).append("\n"); // Add a newline character at the end of each line
-                // Debug print statement to check each line as it's read
+                contentBuilder.append(line).append("\n");
                 System.out.println("Read line: " + line);
             }
         }
 
         return contentBuilder.toString();
     }
-
 
     public List<Order> parseOrders(JSONArray jsonArray) {
         List<Order> orders = new ArrayList<>();
@@ -84,5 +74,10 @@ public class OrderReader {
         }
 
         return orders;
+    }
+
+    // NEW METHOD: Add an order to the existing list of orders
+    public void addOrder(Order order, List<Order> existingOrders) {
+        existingOrders.add(order);
     }
 }
