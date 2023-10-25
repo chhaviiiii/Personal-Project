@@ -32,4 +32,10 @@ Understanding the importance of effective order and task management systems in r
 
 - As a customer service representative, I want to search for a specific order using the order ID to provide updates or changes to the customer.
 
+- As a startup business owner, I want to be able to load past orders.
+
+- As an employee, I want to change the status of the loaded orders from previous files.
+
+- As a manager, I want to save my orders after creating them.
+
  

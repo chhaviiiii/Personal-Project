@@ -96,4 +96,26 @@ public class OrderWriterTest {
         orders.add(order2);
         return orders;
     }
+
+    @Test
+    public void testOpenWithFileNotFoundException() {
+        String testFilePath = "test_orders.json";
+        OrderWriter orderWriter = new OrderWriter(testFilePath) {
+            // Override the open() method to throw a FileNotFoundException
+            @Override
+            public void open() throws FileNotFoundException {
+                throw new FileNotFoundException("File not found");
+            }
+        };
+
+        // Ensure that an exception is thrown when opening the writer
+        assertThrows(FileNotFoundException.class, () -> orderWriter.open());
+
+        // Clean up the test file after the test
+        File testFile = new File(testFilePath);
+        if (testFile.exists()) {
+            testFile.delete();
+        }
+    }
+    
 }

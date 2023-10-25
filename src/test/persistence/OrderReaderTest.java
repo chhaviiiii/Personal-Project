@@ -163,7 +163,6 @@ public class OrderReaderTest {
             fail("Test failed: " + e.getMessage());
         }
     }
-
     @Test
     public List<Order> createSampleOrders() {
         List<Order> orders = new ArrayList<>();
@@ -180,8 +179,26 @@ public class OrderReaderTest {
                 new ArrayList<>());
         orders.add(order1);
         orders.add(order2);
+
         return orders;
     }
+
+    @Test
+    public void testAddOrder() {
+        List<Order> existingOrders = new ArrayList<>();
+
+        // Add an order to the existing list
+        Order newOrder = new Order("3",
+                "Product3",
+                "Customer3",
+                OrderStatus.PLACED,
+                new ArrayList<>());
+        orderReader.addOrder(newOrder, existingOrders);
+
+        // Verify that the new order is added to the list
+        assertEquals(1, existingOrders.size()); // The existingOrders list should have only the newOrder
+    }
+
 
 }
 

@@ -76,8 +76,8 @@ public class OrderReader {
         return orders;
     }
 
-    // NEW METHOD: Add an order to the existing list of orders
-    public void addOrder(Order order, List<Order> existingOrders) {
-        existingOrders.add(order);
+    // Add an order to the existing list of orders
+    public void addOrder(Order newOrder, List<Order> existingOrders) {
+        existingOrders.add(newOrder);
     }
 }

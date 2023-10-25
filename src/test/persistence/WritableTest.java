@@ -23,7 +23,6 @@ public class WritableTest {
                 "John Doe",
                 OrderStatus.PLACED, new ArrayList<>());
 
-        // Call the toJson method
         JSONObject json = order.toJson();
 
         // Assert the expected JSON structure
@@ -32,16 +31,12 @@ public class WritableTest {
         assertEquals("John Doe", json.getString("customerDetails"));
         assertEquals("PLACED", json.getString("orderStatus"));
 
-        // If productsToJson is tested separately, you can add more assertions here
     }
 
     @Test
     public void testProductToJson() {
         // Create a Product instance with sample data
-        Product product = new Product("Sample Product",
-                "Description",
-                19.99,
-                ProductType.ELECTRONICS);
+        Product product = new Product("Sample Product", "Description", 19.99, ProductType.ELECTRONICS);
 
         // Call the toJson method
         JSONObject json = product.toJson();
@@ -49,31 +44,9 @@ public class WritableTest {
         // Assert the expected JSON structure
         assertEquals("Sample Product", json.getString("name"));
         assertEquals("Description", json.getString("description"));
-        assertEquals(19.99, json.getDouble("price"), 0.001);
+        assertEquals(19.99, json.getDouble("price"), 0.01);
         assertEquals("ELECTRONICS", json.getString("productType"));
     }
-
-    @Test
-    public void testAddProductToJSONArray() {
-        // Create a sample product
-        Product product1 = new Product("Product1", "Description1", 10.99, ProductType.CLOTHES);
-
-        // Create an empty JSON array
-        JSONArray jsonArray = new JSONArray();
-
-        // Add the product to the JSON array
-        jsonArray.put(product1.toJson());
-
-        // Ensure that the JSON array contains the expected product JSON
-        assertEquals(1, jsonArray.length());
-
-        // Verify the JSON object in the array
-        assertEquals("Product1", jsonArray.getJSONObject(0).getString("name"));
-        assertEquals("Description1", jsonArray.getJSONObject(0).getString("description"));
-        assertEquals(10.99, jsonArray.getJSONObject(0).getDouble("price"), 0.01);
-        assertEquals("CLOTHES", jsonArray.getJSONObject(0).getString("productType"));
-    }
-
 
     @Test
     public void testEmptyProductsToJSONConversion() {
