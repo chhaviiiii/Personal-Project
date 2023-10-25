@@ -5,6 +5,7 @@ import model.OrderStatus;
 import model.Product;
 import model.ProductType;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
@@ -22,23 +23,35 @@ public class OrderReader {
 
     // EFFECTS: reads orders from the file and returns them
     public List<Order> read() throws FileNotFoundException {
-        String jsonData = readFile(source);
-        JSONObject jsonObject = new JSONObject(jsonData);
-        JSONArray jsonArray = jsonObject.getJSONArray("orders");
-        return parseOrders(jsonArray);
+        try {
+            String jsonData = readFile(source);
+            JSONObject jsonObject = new JSONObject(jsonData);
+            JSONArray jsonArray = jsonObject.getJSONArray("orders");
+            return parseOrders(jsonArray);
+        } catch (JSONException e) {
+            // Handle the exception here (e.g., log an error message)
+            System.err.println("Error reading JSON: " + e.getMessage());
+            // You might return an empty list or null to indicate an error
+            return new ArrayList<>();
+        }
     }
+
 
     private String readFile(String source) throws FileNotFoundException {
         StringBuilder contentBuilder = new StringBuilder();
 
         try (Scanner scanner = new Scanner(new File(source))) {
             while (scanner.hasNextLine()) {
-                contentBuilder.append(scanner.nextLine()).append("\n");
+                String line = scanner.nextLine();
+                contentBuilder.append(line).append("\n"); // Add a newline character at the end of each line
+                // Debug print statement to check each line as it's read
+                System.out.println("Read line: " + line);
             }
         }
 
         return contentBuilder.toString();
     }
+
 
     private List<Order> parseOrders(JSONArray jsonArray) {
         List<Order> orders = new ArrayList<>();
