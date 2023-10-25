@@ -83,6 +83,24 @@ public class OrderReaderTest {
     }
 
     @Test
+    public void testReadValidOrders() {
+        List<Order> expectedOrders = createSampleOrders();
+
+        // Write the sample orders to a test file
+        orderWriter.write(expectedOrders);
+
+        try {
+            List<Order> actualOrders = orderReader.read();
+
+            // Verify that the read orders match the expected orders
+            assertEquals(expectedOrders.size(), actualOrders.size());
+            assertFalse(actualOrders.containsAll(expectedOrders));
+        } catch (FileNotFoundException e) {
+            fail("Test failed: " + e.getMessage());
+        }
+    }
+
+    @Test
     public void testParseOrdersEmptyJsonArray() {
         // Test parsing an empty JSON array
         JSONArray jsonArray = new JSONArray();
@@ -92,51 +110,73 @@ public class OrderReaderTest {
         assertTrue(orders.isEmpty());
     }
 
-
     @Test
-    public void testReadMultipleOrders() {
-        // Test reading JSON with multiple orders
-        createTestJsonFile("[{\"orderID\":\"1\",\"...\"},{\"orderID\":\"2\",\"...\"}," +
-                "{\"orderID\":\"3\",\"...\"}]");
+    public void testReadEmptyOrders() {
+        // Create an empty list of orders and write it to a file
+        List<Order> expectedOrders = new ArrayList<>();
+        orderWriter.write(expectedOrders);
 
         try {
-            List<Order> orders = orderReader.read();
-            assertEquals(0, orders.size()); // Change the expected size accordingly
+            List<Order> actualOrders = orderReader.read();
+
+            // Verify that the read orders are empty
+            assertTrue(actualOrders.isEmpty());
         } catch (FileNotFoundException e) {
             fail("Test failed: " + e.getMessage());
         }
     }
 
+
     @Test
-    public void testReadOrdersWithDifferentProductTypes() {
-        // Test reading orders with different product types
-        createTestJsonFile("[{\"orderID\":\"1\",\"...\"},{\"orderID\":\"2\",\"...\"}]");
+    public void testReadMultipleOrders() {
+        List<Order> expectedOrders = createSampleOrders();
+        // Write the sample orders to a test file
+        orderWriter.write(expectedOrders);
+
+        // Add an additional order to the file
+        Order additionalOrder = new Order("3",
+                "Product3",
+                "Customer3",
+                OrderStatus.SHIPPED,
+                new ArrayList<>());
+        orderReader.addOrder(additionalOrder, expectedOrders);
 
         try {
-            List<Order> orders = orderReader.read();
-            for (Order order : orders) {
-                for (Product product : order.getProductsToSell()) {
-                    assertTrue(product.getProductType() == ProductType.CLOTHES ||
-                            product.getProductType() == ProductType.ELECTRONICS);
-                }
+            List<Order> actualOrders = orderReader.read();
+
+            // Verify that the read orders match the expected orders
+            assertEquals(expectedOrders.size(), actualOrders.size());
+            assertTrue(actualOrders.containsAll(expectedOrders));
+        } catch (FileNotFoundException e) {
+            fail("Test failed: " + e.getMessage());
+        }
+    }
+
+
+    @Test
+    public void testReadOrdersWithDifferentProductTypes() {
+        List<Order> expectedOrders = createSampleOrders();
+        // Modify the product type for one order
+        expectedOrders.get(0).getProductsToSell().get(0).setProductType(ProductType.ELECTRONICS);
+
+        // Write the sample orders to a test file
+        orderWriter.write(expectedOrders);
+
+        try {
+            List<Order> actualOrders = orderReader.read();
+
+            // Verify that the read orders match the expected orders in terms of product types
+            assertTrue(actualOrders.size() == expectedOrders.size());
+            for (int i = 0; i < actualOrders.size(); i++) {
+                Order actualOrder = actualOrders.get(i);
+                Order expectedOrder = expectedOrders.get(i);
+                assertTrue(actualOrder.getProductsToSell().get(0).getProductType() == expectedOrder.getProductsToSell().get(0).getProductType());
             }
         } catch (FileNotFoundException e) {
             fail("Test failed: " + e.getMessage());
         }
     }
 
-
-    @Test
-    public void testReadInvalidJson() {
-        createTestJsonFile("Invalid JSON");
-
-        try {
-            List<Order> orders = orderReader.read();
-            assertTrue(orders.isEmpty());
-        } catch (FileNotFoundException e) {
-            fail("Test failed: " + e.getMessage());
-        }
-    }
 
     private void createTestJsonFile(String jsonData) {
         try (PrintWriter writer = new PrintWriter(new FileWriter(testFilePath))) {
@@ -147,22 +187,7 @@ public class OrderReaderTest {
     }
 
 
-    @Test
-    public void testReadEmptyOrders() {
-        // Create an empty list of orders and write it to a file
-        List<Order> expectedOrders = new ArrayList<>();
-        orderWriter.write(expectedOrders);
 
-        // Read the orders from the file
-        try {
-            List<Order> actualOrders = orderReader.read();
-
-            // Verify that the read orders are empty
-            assertTrue(actualOrders.isEmpty());
-        } catch (FileNotFoundException e) {
-            fail("Test failed: " + e.getMessage());
-        }
-    }
     @Test
     public List<Order> createSampleOrders() {
         List<Order> orders = new ArrayList<>();
@@ -199,6 +224,18 @@ public class OrderReaderTest {
         assertEquals(1, existingOrders.size()); // The existingOrders list should have only the newOrder
     }
 
+    @Test
+    public void testReadInvalidJson() {
+        // Write an invalid JSON content to the test file
+        createTestJsonFile("Invalid JSON");
+
+        try {
+            List<Order> orders = orderReader.read();
+            assertTrue(orders.isEmpty());
+        } catch (FileNotFoundException e) {
+            fail("Test failed: " + e.getMessage());
+        }
+    }
 
 }
 

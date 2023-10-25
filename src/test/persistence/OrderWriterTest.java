@@ -36,48 +36,8 @@ public class OrderWriterTest {
         }
     }
 
-    @Test
-    public void testWriteValidOrders() {
-        List<Order> orders = createSampleOrders();
-        orderWriter.write(orders);
 
-        // Verify that the file has been written correctly
-        try {
-            Scanner scanner = new Scanner(new File(testFilePath));
-            String fileContent = scanner.useDelimiter("\\A").next();
-            scanner.close();
 
-            // Create the expected JSON object
-            JSONObject expectedJsonObject = new JSONObject();
-            JSONArray expectedJsonArray = new JSONArray();
-            for (Order order : orders) {
-                expectedJsonArray.put(order.toJson());
-            }
-            expectedJsonObject.put("orders", expectedJsonArray);
-
-            assertEquals(expectedJsonObject.toString(4), fileContent);
-        } catch (IOException e) {
-            fail("Test failed: " + e.getMessage());
-        }
-    }
-
-    @Test
-    public void testWriteEmptyOrders() {
-        List<Order> orders = new ArrayList<>();
-        orderWriter.write(orders);
-
-        // Verify that the file has been written correctly
-        try {
-            Scanner scanner = new Scanner(new File(testFilePath));
-            String fileContent = scanner.useDelimiter("\\A").next();
-            scanner.close();
-
-            // The file content should be an empty JSON array
-            assertEquals("{\"orders\": []}", fileContent);
-        } catch (IOException e) {
-            fail("Test failed: " + e.getMessage());
-        }
-    }
 
     private List<Order> createSampleOrders() {
         List<Order> orders = new ArrayList<>();
@@ -97,25 +57,68 @@ public class OrderWriterTest {
         return orders;
     }
 
+
     @Test
-    public void testOpenWithFileNotFoundException() {
-        String testFilePath = "test_orders.json";
-        OrderWriter orderWriter = new OrderWriter(testFilePath) {
-            // Override the open() method to throw a FileNotFoundException
-            @Override
-            public void open() throws FileNotFoundException {
-                throw new FileNotFoundException("File not found");
-            }
-        };
-
-        // Ensure that an exception is thrown when opening the writer
-        assertThrows(FileNotFoundException.class, () -> orderWriter.open());
-
-        // Clean up the test file after the test
-        File testFile = new File(testFilePath);
-        if (testFile.exists()) {
-            testFile.delete();
+    public void testOpen() {
+        try {
+            orderWriter.open();
+            // If no exception is thrown, consider the test successful
+        } catch (FileNotFoundException e) {
+            fail("Test failed: " + e.getMessage());
         }
     }
-    
+
+    @Test
+    public void testOpenWithFileNotFoundException() {
+        // Create an OrderWriter for a non-existent path, which will trigger a FileNotFoundException
+        OrderWriter invalidPathWriter = new OrderWriter("non_existent_directory/test_orders.json");
+
+        assertThrows(FileNotFoundException.class, () -> invalidPathWriter.open());
+    }
+
+    @Test
+    public void testWriteValidOrders() {
+        List<Order> orders = createSampleOrders();
+
+        try {
+            orderWriter.write(orders);
+
+            // Verify that the file has been written correctly
+            Scanner scanner = new Scanner(new File(testFilePath));
+            String fileContent = scanner.useDelimiter("\\A").next();
+            scanner.close();
+
+            JSONObject expectedJsonObject = new JSONObject();
+            JSONArray expectedJsonArray = new JSONArray();
+            for (Order order : orders) {
+                expectedJsonArray.put(order.toJson());
+            }
+            expectedJsonObject.put("orders", expectedJsonArray);
+
+            assertEquals(expectedJsonObject.toString(4), fileContent);
+        } catch (IOException e) {
+            fail("Test failed: " + e.getMessage());
+        }
+    }
+
+    @Test
+    public void testWriteEmptyOrders() {
+        List<Order> orders = new ArrayList<>();
+
+        try {
+            orderWriter.write(orders);
+
+            // Verify that the file has been written correctly
+            Scanner scanner = new Scanner(new File(testFilePath));
+            String fileContent = scanner.useDelimiter("\\A").next();
+            scanner.close();
+
+            // The file content should be an empty JSON array
+            assertEquals("{\"orders\": []}", fileContent);
+        } catch (IOException e) {
+            fail("Test failed: " + e.getMessage());
+        }
+    }
+
+
 }
