@@ -53,7 +53,7 @@ public class OrderReader {
     }
 
 
-    private List<Order> parseOrders(JSONArray jsonArray) {
+    public List<Order> parseOrders(JSONArray jsonArray) {
         List<Order> orders = new ArrayList<>();
 
         for (Object json : jsonArray) {
