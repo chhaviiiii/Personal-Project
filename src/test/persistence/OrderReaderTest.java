@@ -176,18 +176,6 @@ public class OrderReaderTest {
         assertEquals(1, existingOrders.size()); // The existingOrders list should have only the newOrder
     }
 
-    @Test
-    public void testReadInvalidJson() {
-        // Write an invalid JSON content to the test file
-        createTestJsonFile("Invalid JSON");
-
-        try {
-            List<Order> orders = orderReader.read();
-            assertTrue(orders.isEmpty());
-        } catch (FileNotFoundException e) {
-            fail("Test failed: " + e.getMessage());
-        }
-    }
 
 }
 

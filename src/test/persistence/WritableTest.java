@@ -57,5 +57,46 @@ public class WritableTest {
         for (Product product : productsToSell) {
             jsonArray.put(product.toJson());
         }
+
+        // You can add assertions here if needed
+        // For example, you can check that the JSON array is empty
+        assertEquals(0, jsonArray.length());
+    }
+
+    @Test
+    public void testProductsToJsonWithNonEmptyList() {
+        // Create an Order instance with a non-empty list of products
+        List<Product> products = new ArrayList<>();
+        products.add(new Product("Product1", "Description1", 10.0, ProductType.CLOTHES));
+        products.add(new Product("Product2", "Description2", 20.0, ProductType.MAKEUP));
+        Order order = new Order("2", "Product2", "Customer2", OrderStatus.SHIPPED, products);
+
+        // Convert the products list to a JSON array
+        JSONArray productsJsonArray = new JSONArray();
+
+        for (Product product : products) {
+            JSONObject productJson = new JSONObject();
+            productJson.put("name", product.getName());
+            productJson.put("description", product.getDescription());
+            productJson.put("price", product.getPrice());
+            // Add any other fields as needed
+
+            productsJsonArray.put(productJson);
+        }
+
+        // Ensure that the products JSON array contains the expected number of products
+        assertEquals(2, productsJsonArray.length());
+
+        // You can add more detailed assertions if needed, such as comparing product details.
+        JSONObject product1Json = productsJsonArray.getJSONObject(0);
+        JSONObject product2Json = productsJsonArray.getJSONObject(1);
+
+        assertEquals("Product1", product1Json.getString("name"));
+        assertEquals("Description2", product1Json.getString("description"));
+        assertEquals(10.0, product1Json.getDouble("price"), 0.01);
+
+        assertEquals("Product2", product2Json.getString("name"));
+        assertEquals("Description2", product2Json.getString("description"));
+        assertEquals(20.0, product2Json.getDouble("price"), 0.01);
     }
 }
