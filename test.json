@@ -1,0 +1,16 @@
+{"orders": [
+    {
+        "orderID": "ID1",
+        "productsToSell": [],
+        "orderStatus": "COMPLETE",
+        "productDetails": "Detail1",
+        "customerDetails": "Customer1"
+    },
+    {
+        "orderID": "ID2",
+        "productsToSell": [],
+        "orderStatus": "PROCESSED",
+        "productDetails": "Detail2",
+        "customerDetails": "Customer2"
+    }
+]}

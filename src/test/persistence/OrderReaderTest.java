@@ -28,7 +28,7 @@ public class OrderReaderTest {
     @Test
     void testRead() {
         try {
-            OrderReader orderReader = new OrderReader("./data/FileNotFound.json");
+            OrderReader orderReader = new OrderReader("./data/InvalidFIle.json");
             assertNotNull(orderReader.read());
         } catch (FileNotFoundException e) {
             fail("File should be found");
@@ -40,8 +40,8 @@ public class OrderReaderTest {
     @Test
     void testReadFile() {
         try {
-            OrderReader orderReader = new OrderReader("./data/FileFound.json");
-            assertNotNull(orderReader.readFile("./data/FileNotFound.json"));
+            OrderReader orderReader = new OrderReader("./data/ValidFile.json");
+            assertNotNull(orderReader.readFile("./data/InvalidFile.json"));
         } catch (FileNotFoundException e) {
             fail("File should be found");
         }
@@ -86,6 +86,8 @@ public class OrderReaderTest {
         } catch (FileNotFoundException e) {
             fail("File should be found");
         }
+
+
     }
 
 }
