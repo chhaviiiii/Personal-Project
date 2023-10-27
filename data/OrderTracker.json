@@ -1,12 +1,26 @@
-{"orders": [{
-    "orderID": "o4",
-    "productsToSell": [{
-        "price": 32232,
-        "name": "poweo",
-        "description": "ppp",
-        "productType": "MAKEUP"
-    }],
-    "orderStatus": "PLACED",
-    "productDetails": " (in Order): 1",
-    "customerDetails": "ooo"
-}]}
+{"orders": [
+    {
+        "orderID": "o1",
+        "productsToSell": [{
+            "price": 21,
+            "name": "ad",
+            "description": "pp",
+            "productType": "CLOTHES"
+        }],
+        "orderStatus": "PLACED",
+        "productDetails": " (in Order): 1",
+        "customerDetails": "qq"
+    },
+    {
+        "orderID": "o2",
+        "productsToSell": [{
+            "price": 22,
+            "name": "oo",
+            "description": "pp",
+            "productType": "ELECTRONICS"
+        }],
+        "orderStatus": "PLACED",
+        "productDetails": " (in Order): 1",
+        "customerDetails": "op"
+    }
+]}

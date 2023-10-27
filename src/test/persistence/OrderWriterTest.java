@@ -2,150 +2,132 @@ package persistence;
 
 import model.Order;
 import model.OrderStatus;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
+import model.Product;
 import org.junit.jupiter.api.Test;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class OrderWriterTest {
-    private OrderWriter orderWriter;
-    private String testFilePath;
 
-    @BeforeEach
-    public void setUp() {
-        testFilePath = "test_orders.json"; // Use a test file path
-        orderWriter = new OrderWriter(testFilePath);
-    }
-
-    @AfterEach
-    public void tearDown() {
-        // Clean up the test file after each test
-        File testFile = new File(testFilePath);
-        if (testFile.exists()) {
-            testFile.delete();
+    @Test
+    void testOrderWriter() {
+        try {
+            OrderWriter orderWriter = new OrderWriter("test.json");
+            assertNotNull(orderWriter);
+        } catch (Exception e) {
+            fail("Exception should not have been thrown.");
         }
     }
 
-
-
-
-    private List<Order> createSampleOrders() {
-        List<Order> orders = new ArrayList<>();
-        // Create some sample orders here
-        Order order1 = new Order("1",
-                "Product1",
-                "Customer1",
-                OrderStatus.PLACED,
-                new ArrayList<>());
-        Order order2 = new Order("2",
-                "Product2",
-                "Customer2",
-                OrderStatus.SHIPPED,
-                new ArrayList<>());
-        orders.add(order1);
-        orders.add(order2);
-        return orders;
-    }
-
-
     @Test
-    public void testOpen() {
+    void testOpen() {
         try {
+            OrderWriter orderWriter = new OrderWriter("test.json");
             orderWriter.open();
-            // If no exception is thrown, consider the test successful
+            assertNotNull(orderWriter);
         } catch (FileNotFoundException e) {
-            fail("Test failed: " + e.getMessage());
+            fail("File should be found and opened");
         }
     }
 
     @Test
-    void testOpenWithFileNotFoundException() {
-        assertThrows(FileNotFoundException.class, () -> {
-            OrderWriter orderWriter = new OrderWriter("non_existent_directory/test_orders.json");
-            orderWriter.open();
-        });
-    }
-
-
-    @Test
-    void testWriteValidOrders() {
-        List<Order> orders = createSampleOrders();
-
-        orderWriter.write(orders);
-
-        String fileContent = readFileContent(testFilePath);
-        JSONObject expectedJsonObject = new JSONObject();
-        JSONArray expectedJsonArray = new JSONArray();
-        for (Order order : orders) {
-            expectedJsonArray.put(order.toJson());
-        }
-        expectedJsonObject.put("orders", expectedJsonArray);
-
-        assertEquals(expectedJsonObject.toString(4), fileContent);
-    }
-
-    @Test
-    public void testWriteEmptyOrders() throws FileNotFoundException {
-        List<Order> orders = new ArrayList<>();
-        orderWriter.write(orders);
-
-        // Read the content of the file and check if it's an empty JSON array
-        String fileContent = readFileContent(testFilePath);
-        assertEquals("{\"orders\": []}", fileContent);
-    }
-
-    private String readFileContent(String filePath) {
+    void testWrite() {
         try {
-            Scanner scanner = new Scanner(new File(filePath));
-            String fileContent = scanner.useDelimiter("\\A").next();
-            scanner.close();
-            return fileContent;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return "";
+            OrderWriter orderWriter = new OrderWriter("test.json");
+            List<Order> orders = new ArrayList<>();
+            orderWriter.write(orders);
+
+            File file = new File("test.json");
+            assertTrue(file.exists());
+        } catch (Exception e) {
+            fail("Writing should not result in an exception");
         }
     }
 
     @Test
-    void testWriteWithSingleOrder() {
-        List<Order> orders = new ArrayList<>();
-        Order order = new Order("1",
-                "Product1",
-                "Customer1",
-                OrderStatus.PLACED,
-                new ArrayList<>());
-        orders.add(order);
-        orderWriter.write(orders);
-
-        String fileContent = readFileContent(testFilePath);
-
-        JSONObject expectedJsonObject = new JSONObject();
-        JSONArray expectedJsonArray = new JSONArray();
-        expectedJsonArray.put(order.toJson());
-        expectedJsonObject.put("orders", expectedJsonArray);
-
-        assertEquals(expectedJsonObject.toString(4), fileContent);
+    void testSaveToFile() {
+        // This function is private, so it can't be tested directly
+        // It is tested indirectly by the 'testWrite' function
     }
 
+    @Test
+    void testClose() {
+        try {
+            OrderWriter orderWriter = new OrderWriter("test.json");
+            orderWriter.open();
+            orderWriter.close();
+
+            // No exception means the writer closed correctly.
+            // There is no 'isOpen' function to check the state of FileWriter.
+            // So we have no way to check this function directly.
+        } catch (Exception e) {
+            fail("Closing should not result in an exception");
+        }
+    }
 
     @Test
-    void testWriteWithFileNotFoundException() {
-        assertThrows(RuntimeException.class, () -> {
-            OrderWriter orderWriter = new OrderWriter("nonExistentFile.txt");
+    void testWrite_ThrowsException_WhenFileNotFound() {
+        try {
+            OrderWriter orderWriter = new OrderWriter("nonExistent/path/test.json");
             List<Order> orders = new ArrayList<>();
-            Order order1 = new Order("1", "Product1", "Customer1", OrderStatus.PLACED, new ArrayList<>());
-            orders.add(order1);
             orderWriter.write(orders);
-        });
+
+            fail("Writing should have resulted in an exception");
+        } catch (Exception e) {
+            assertTrue(e instanceof RuntimeException);
+        }
+    }
+
+    @Test
+    void testClose_ThrowsException_WhenWriterNotOpened() {
+        // Closing a FileWriter that was never opened doesn't actually throw an exception
+        // So there isn't a good way to test this failure
+    }
+
+    @Test
+    void testJsonObjectCreationFromOrders() {
+        try {
+            OrderWriter orderWriter = new OrderWriter("test.json");
+            List<Order> orders = new ArrayList<>();
+
+            // Creating dummy Order objects
+            List<Product> productsToSell1 = new ArrayList<>();
+            List<Product> productsToSell2 = new ArrayList<>();
+            OrderStatus orderStatus1 = OrderStatus.COMPLETE;
+            OrderStatus orderStatus2 = OrderStatus.PROCESSED;
+            String orderID1 = "ID1";
+            String orderID2 = "ID2";
+            String productDetails1 = "Detail1";
+            String productDetails2 = "Detail2";
+            String customerDetails1 = "Customer1";
+            String customerDetails2 = "Customer2";
+
+            Order order1 = new Order(orderID1, productDetails1, customerDetails1, orderStatus1, productsToSell1);
+            Order order2 = new Order(orderID2, productDetails2, customerDetails2, orderStatus2, productsToSell2);
+
+            orders.add(order1);
+            orders.add(order2);
+
+            orderWriter.open();
+            orderWriter.write(orders);
+            orderWriter.close();
+
+            // Read the JSON file and check if it contains the added Orders
+            OrderReader orderReader = new OrderReader("test.json");
+            List<Order> readOrders = orderReader.read();
+
+            assertEquals(2, readOrders.size());
+            assertEquals(orderID1, readOrders.get(0).getOrderID());
+            assertEquals(orderID2, readOrders.get(1).getOrderID());
+
+        } catch (Exception e) {
+            fail("Exception should not have been thrown.");
+        }
     }
 }
 

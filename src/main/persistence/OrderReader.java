@@ -33,7 +33,7 @@ public class OrderReader {
         }
     }
 
-    private String readFile(String source) throws FileNotFoundException {
+    protected String readFile(String source) throws FileNotFoundException {
         StringBuilder contentBuilder = new StringBuilder();
 
         try (Scanner scanner = new Scanner(new File(source))) {
