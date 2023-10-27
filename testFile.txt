@@ -1,0 +1,7 @@
+{"orders": [{
+    "orderID": "1",
+    "productsToSell": [],
+    "orderStatus": "PLACED",
+    "productDetails": "Product1",
+    "customerDetails": "Customer1"
+}]}

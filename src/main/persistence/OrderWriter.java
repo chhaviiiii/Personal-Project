@@ -44,11 +44,9 @@ public class OrderWriter {
 
             saveToFile(jsonObject.toString(TAB));
         } catch (FileNotFoundException e) {
-            // Handle the exception as needed (e.g., log an error message)
-            System.err.println("Error opening the file for writing: " + e.getMessage());
-        } finally {
-            close();  // Ensure the writer is closed after writing
+            throw new RuntimeException(e);
         }
+        close();  // Ensure the writer is closed after writing
     }
 
 

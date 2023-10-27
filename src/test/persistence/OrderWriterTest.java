@@ -8,9 +8,8 @@ import org.json.JSONObject;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -69,56 +68,88 @@ public class OrderWriterTest {
     }
 
     @Test
-    public void testOpenWithFileNotFoundException() {
-        // Create an OrderWriter for a non-existent path, which will trigger a FileNotFoundException
-        OrderWriter invalidPathWriter = new OrderWriter("non_existent_directory/test_orders.json");
-
-        assertThrows(FileNotFoundException.class, () -> invalidPathWriter.open());
+    void testOpenWithFileNotFoundException() {
+        assertThrows(FileNotFoundException.class, () -> {
+            OrderWriter orderWriter = new OrderWriter("non_existent_directory/test_orders.json");
+            orderWriter.open();
+        });
     }
 
+
     @Test
-    public void testWriteValidOrders() {
+    void testWriteValidOrders() {
         List<Order> orders = createSampleOrders();
 
-        try {
-            orderWriter.write(orders);
+        orderWriter.write(orders);
 
-            // Verify that the file has been written correctly
-            Scanner scanner = new Scanner(new File(testFilePath));
+        String fileContent = readFileContent(testFilePath);
+        JSONObject expectedJsonObject = new JSONObject();
+        JSONArray expectedJsonArray = new JSONArray();
+        for (Order order : orders) {
+            expectedJsonArray.put(order.toJson());
+        }
+        expectedJsonObject.put("orders", expectedJsonArray);
+
+        assertEquals(expectedJsonObject.toString(4), fileContent);
+    }
+
+    @Test
+    public void testWriteEmptyOrders() throws FileNotFoundException {
+        List<Order> orders = new ArrayList<>();
+        orderWriter.write(orders);
+
+        // Read the content of the file and check if it's an empty JSON array
+        String fileContent = readFileContent(testFilePath);
+        assertEquals("{\"orders\": []}", fileContent);
+    }
+
+    private String readFileContent(String filePath) {
+        try {
+            Scanner scanner = new Scanner(new File(filePath));
             String fileContent = scanner.useDelimiter("\\A").next();
             scanner.close();
-
-            JSONObject expectedJsonObject = new JSONObject();
-            JSONArray expectedJsonArray = new JSONArray();
-            for (Order order : orders) {
-                expectedJsonArray.put(order.toJson());
-            }
-            expectedJsonObject.put("orders", expectedJsonArray);
-
-            assertEquals(expectedJsonObject.toString(4), fileContent);
+            return fileContent;
         } catch (IOException e) {
-            fail("Test failed: " + e.getMessage());
+            e.printStackTrace();
+            return "";
         }
     }
 
     @Test
-    public void testWriteEmptyOrders() {
+    void testWriteWithSingleOrder() {
         List<Order> orders = new ArrayList<>();
+        Order order = new Order("1",
+                "Product1",
+                "Customer1",
+                OrderStatus.PLACED,
+                new ArrayList<>());
+        orders.add(order);
+        orderWriter.write(orders);
 
-        try {
-            orderWriter.write(orders);
+        String fileContent = readFileContent(testFilePath);
 
-            // Verify that the file has been written correctly
-            Scanner scanner = new Scanner(new File(testFilePath));
-            String fileContent = scanner.useDelimiter("\\A").next();
-            scanner.close();
+        JSONObject expectedJsonObject = new JSONObject();
+        JSONArray expectedJsonArray = new JSONArray();
+        expectedJsonArray.put(order.toJson());
+        expectedJsonObject.put("orders", expectedJsonArray);
 
-            // The file content should be an empty JSON array
-            assertEquals("{\"orders\": []}", fileContent);
-        } catch (IOException e) {
-            fail("Test failed: " + e.getMessage());
-        }
+        assertEquals(expectedJsonObject.toString(4), fileContent);
     }
 
 
+    @Test
+    void testWriteWithFileNotFoundException() {
+        assertThrows(RuntimeException.class, () -> {
+            OrderWriter orderWriter = new OrderWriter("nonExistentFile.txt");
+            List<Order> orders = new ArrayList<>();
+            Order order1 = new Order("1", "Product1", "Customer1", OrderStatus.PLACED, new ArrayList<>());
+            orders.add(order1);
+            orderWriter.write(orders);
+        });
+    }
 }
+
+
+
+
+

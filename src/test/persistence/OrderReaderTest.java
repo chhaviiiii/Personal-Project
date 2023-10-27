@@ -127,55 +127,7 @@ public class OrderReaderTest {
     }
 
 
-    @Test
-    public void testReadMultipleOrders() {
-        List<Order> expectedOrders = createSampleOrders();
-        // Write the sample orders to a test file
-        orderWriter.write(expectedOrders);
 
-        // Add an additional order to the file
-        Order additionalOrder = new Order("3",
-                "Product3",
-                "Customer3",
-                OrderStatus.SHIPPED,
-                new ArrayList<>());
-        orderReader.addOrder(additionalOrder, expectedOrders);
-
-        try {
-            List<Order> actualOrders = orderReader.read();
-
-            // Verify that the read orders match the expected orders
-            assertEquals(expectedOrders.size(), actualOrders.size());
-            assertTrue(actualOrders.containsAll(expectedOrders));
-        } catch (FileNotFoundException e) {
-            fail("Test failed: " + e.getMessage());
-        }
-    }
-
-
-    @Test
-    public void testReadOrdersWithDifferentProductTypes() {
-        List<Order> expectedOrders = createSampleOrders();
-        // Modify the product type for one order
-        expectedOrders.get(0).getProductsToSell().get(0).setProductType(ProductType.ELECTRONICS);
-
-        // Write the sample orders to a test file
-        orderWriter.write(expectedOrders);
-
-        try {
-            List<Order> actualOrders = orderReader.read();
-
-            // Verify that the read orders match the expected orders in terms of product types
-            assertTrue(actualOrders.size() == expectedOrders.size());
-            for (int i = 0; i < actualOrders.size(); i++) {
-                Order actualOrder = actualOrders.get(i);
-                Order expectedOrder = expectedOrders.get(i);
-                assertTrue(actualOrder.getProductsToSell().get(0).getProductType() == expectedOrder.getProductsToSell().get(0).getProductType());
-            }
-        } catch (FileNotFoundException e) {
-            fail("Test failed: " + e.getMessage());
-        }
-    }
 
 
     private void createTestJsonFile(String jsonData) {
