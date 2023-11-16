@@ -13,7 +13,7 @@ import java.util.Scanner;
 // Application that is able to create, track and update orders.
 public class OrderTracker {
     private final List<Order> orders;
-    private static final String JSON_STORE = "./data/test.json";
+    static final String JSON_STORE = "./data/OrderTrackingBabyyyy.json";
 
     private OrderWriter jsonWriter;
     private OrderReader jsonReader;
@@ -68,7 +68,7 @@ public class OrderTracker {
         String customerDetails = getCustomerDetails(input);
 
         String orderID = OrderID.generateOrderID(productsToSell);
-        Order newOrder = new Order(orderID, " (in Order): "
+        Order newOrder = new Order(Order.getOrderID(), " (in Order): "
                 + productsToSell.size(),
                 customerDetails,
                 OrderStatus.PLACED, productsToSell);

@@ -15,29 +15,25 @@ public class Product implements Writable {
     // EFFECTS: Initializes a new Product with the given name, description, price, and product type
     public Product(String name, String description, double price, ProductType productType) {
         this.name = name;
-        Product.description = description;
+        this.description = description;
         this.price = price;
         this.productType = productType;
     }
-
 
     // EFFECTS: Returns the product's name
     public String getName() {
         return name;
     }
 
-
     // EFFECTS: Returns the product's description
     public static String getDescription() {
         return description;
     }
 
-
     // EFFECTS: Returns the product's price
     public double getPrice() {
         return price;
     }
-
 
     // EFFECTS: Returns the product's type
     public ProductType getProductType() {

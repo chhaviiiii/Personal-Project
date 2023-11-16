@@ -69,7 +69,7 @@ public class OrderReader {
                 productsToSell.add(product);
             }
 
-            Order order = new Order(orderID, productDetails, customerDetails, orderStatus, productsToSell);
+            Order order = new Order(Order.getOrderID(), productDetails, customerDetails, orderStatus, productsToSell);
             orders.add(order);
         }
 

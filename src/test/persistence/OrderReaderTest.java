@@ -78,16 +78,61 @@ public class OrderReaderTest {
         }
     }
 
+
+    @Test
+    void testReadValidJSON() {
+        OrderReader orderReader = new OrderReader("./data/ValidFile.json");
+        List<Order> orders = new ArrayList<>();
+        try {
+            orders = orderReader.read();
+        } catch (JSONException | FileNotFoundException e) {
+            fail("Exception should not be thrown.");
+        }
+        assertTrue(!orders.isEmpty());
+    }
+
     @Test
     void testReadInvalidJSON() {
+        OrderReader orderReader = new OrderReader("./data/InvalidFile.json");
+        Exception exception = assertThrows(JSONException.class, orderReader::read);
+        assertTrue(exception.getMessage().contains("Error reading JSON"));
+    }
+
+    @Test
+    void testFileNotFound() {
+        OrderReader orderReader = new OrderReader("./data/FileNotFound.json");
+        Exception exception = assertThrows(FileNotFoundException.class, orderReader::read);
+        assertTrue(exception.getMessage().contains("File not found"));
+    }
+    @Test
+    void testReadValidFile() {
+        OrderReader orderReader = new OrderReader("./data/ValidFile.txt");
+        String fileContent = "";
         try {
-            OrderReader orderReader = new OrderReader("./data/InvalidFile.json");
-            assertEquals(0, orderReader.read().size(), "List should be empty for invalid JSON");
+            fileContent = orderReader.readFile("./data/ValidFile.txt");
         } catch (FileNotFoundException e) {
-            fail("File should be found");
+            fail("Exception should not be thrown.");
         }
+        assertFalse(fileContent.isEmpty());
+    }
 
+    @Test
+    void testReadEmptyFile() {
+        OrderReader orderReader = new OrderReader("./data/EmptyFile.txt");
+        String fileContent = "";
+        try {
+            fileContent = orderReader.readFile("./data/EmptyFile.txt");
+        } catch (FileNotFoundException e) {
+            fail("Exception should not be thrown.");
+        }
+        assertTrue(fileContent.isEmpty());
+    }
 
+    @Test
+    void testReadFileNotFound() {
+        OrderReader orderReader = new OrderReader("./data/FileNotFound.txt");
+        Exception exception = assertThrows(FileNotFoundException.class, () -> orderReader.readFile("./data/FileNotFound.txt"));
+        assertTrue(exception.getMessage().contains("File not found"));
     }
 
 }

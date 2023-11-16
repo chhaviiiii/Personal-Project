@@ -9,10 +9,10 @@ import java.util.List;
 // This represents an order with an ID, status and description.
 public class Order implements Writable {
     private List<Product> productsToSell;
-    private final String orderID;
+    private static String orderID;
     private final String productDetails;
-    private final String customerDetails;
-    private OrderStatus orderStatus;
+    private static String customerDetails;
+    private static OrderStatus orderStatus;
 
     // REQUIRES: orderID, productDetails, customerDetails, orderStatus, productsToSell must be non-null
     // MODIFIES: this
@@ -63,26 +63,56 @@ public class Order implements Writable {
     }
 
     // EFFECTS: Returns customer details
-    public String getCustomerDetails() {
+    public static String getCustomerDetails() {
         return customerDetails;
     }
 
 
+
+
     // EFFECTS: Returns product details
     public String getProductDetails() {
-        return Product.getDescription();
+        StringBuilder sb = new StringBuilder();
+        for (Product product : productsToSell) {
+            sb.append(product.getName()).append(" - ").append(product.getDescription()).append("; ");
+        }
+        return sb.toString();
     }
 
 
+
     // EFFECTS: Returns order ID
-    public String getOrderID() {
+    public static String getOrderID() {
         return orderID;
     }
 
     // EFFECTS: Returns order status
-    public OrderStatus getOrderStatus() {
-        return this.orderStatus;
+    public static OrderStatus getOrderStatus() {
+        return orderStatus;
     }
+
+    public void setCustomerDetails(String customerDetails) {
+        this.customerDetails = customerDetails;
+    }
+
+
+
+    // EFFECTS: Returns a string representation of the order with relevant details
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Order ID: ").append(getOrderID())
+                .append(", Customer Details: ").append(getCustomerDetails())
+                .append(", Order Status: ").append(getOrderStatus());
+
+        for (Product product : getProductsToSell()) {
+            sb.append("\n\tProduct Name: ").append(product.getName())
+                    .append(", Type: ").append(product.getProductType())
+                    .append(", Price: ").append(product.getPrice());
+        }
+        return sb.toString();
+    }
+
 
     @Override
     public JSONObject toJson() {
