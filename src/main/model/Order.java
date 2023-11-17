@@ -8,11 +8,11 @@ import java.util.List;
 
 // This represents an order with an ID, status and description.
 public class Order implements Writable {
-    private List<Product> productsToSell;
     private static String orderID;
-    private final String productDetails;
     private static String customerDetails;
     private static OrderStatus orderStatus;
+    private final String productDetails;
+    private List<Product> productsToSell;
 
     // REQUIRES: orderID, productDetails, customerDetails, orderStatus, productsToSell must be non-null
     // MODIFIES: this
@@ -22,11 +22,26 @@ public class Order implements Writable {
                  String customerDetails,
                  OrderStatus orderStatus,
                  List<Product> productsToSell) {
-        this.orderID = orderID;
+        Order.orderID = orderID;
         this.productDetails = productDetails;
-        this.customerDetails = customerDetails;
-        this.orderStatus = orderStatus;
+        Order.customerDetails = customerDetails;
+        Order.orderStatus = orderStatus;
         this.productsToSell = productsToSell;
+    }
+
+    // EFFECTS: Returns customer details
+    public static String getCustomerDetails() {
+        return customerDetails;
+    }
+
+    // EFFECTS: Returns order ID
+    public static String getOrderID() {
+        return orderID;
+    }
+
+    // EFFECTS: Returns order status
+    public static OrderStatus getOrderStatus() {
+        return orderStatus;
     }
 
     // EFFECTS: Returns list of products to sell
@@ -59,43 +74,17 @@ public class Order implements Writable {
     // MODIFIES: this
     // EFFECTS: Updates the order's status
     public void updateOrderStatus(OrderStatus newStatus) {
-        this.orderStatus = newStatus;
+        orderStatus = newStatus;
     }
-
-    // EFFECTS: Returns customer details
-    public static String getCustomerDetails() {
-        return customerDetails;
-    }
-
-
-
 
     // EFFECTS: Returns product details
     public String getProductDetails() {
         StringBuilder sb = new StringBuilder();
         for (Product product : productsToSell) {
-            sb.append(product.getName()).append(" - ").append(product.getDescription()).append("; ");
+            sb.append(product.getName()).append(" - ").append(Product.getDescription()).append("; ");
         }
         return sb.toString();
     }
-
-
-
-    // EFFECTS: Returns order ID
-    public static String getOrderID() {
-        return orderID;
-    }
-
-    // EFFECTS: Returns order status
-    public static OrderStatus getOrderStatus() {
-        return orderStatus;
-    }
-
-    public void setCustomerDetails(String customerDetails) {
-        this.customerDetails = customerDetails;
-    }
-
-
 
     // EFFECTS: Returns a string representation of the order with relevant details
     @Override
@@ -113,7 +102,7 @@ public class Order implements Writable {
         return sb.toString();
     }
 
-
+    // Converts this order to a JSON object for data persistence.
     @Override
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
@@ -125,6 +114,7 @@ public class Order implements Writable {
 
         return json;
     }
+    // The JSON representation of the order.
 
     private JSONArray productsToJson() {
         JSONArray jsonArray = new JSONArray();

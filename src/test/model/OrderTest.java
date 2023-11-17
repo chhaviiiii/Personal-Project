@@ -143,4 +143,22 @@ class OrderTest {
         assertEquals("", customerDetails);
         // as there is no customer, customer details should be empty
     }
+
+    @Test
+    public void testToString() {
+        // Setup
+        List<Product> products = new ArrayList<>();
+        products.add(new Product("Book", "Fiction book", 12.99, ProductType.FOOD));
+        products.add(new Product("Pen", "Blue pen", 1.99, ProductType.MAKEUP));
+
+        Order order = new Order("123", "Order for John Doe", "John Doe", OrderStatus.PLACED, products);
+
+        // Expected string
+        String expected = "Order ID: 123, Customer Details: John Doe, Order Status: PLACED\n\t" +
+                "Product Name: Book, Type: BOOK, Price: 12.99\n\t" +
+                "Product Name: Pen, Type: STATIONARY, Price: 1.99";
+
+        // Assert
+        assertEquals(expected, order.toString());
     }
+}

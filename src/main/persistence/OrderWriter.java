@@ -12,7 +12,7 @@ import java.util.List;
 public class OrderWriter {
     private static final int TAB = 4;
     private PrintWriter writer;
-    private String destination;
+    private final String destination;
 
     // EFFECTS: Constructs a writer to write to the specified destination file
     public OrderWriter(String destination) {

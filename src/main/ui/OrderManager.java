@@ -17,8 +17,8 @@ public class OrderManager {
     private final OrderWriter jsonWriter;
     private final OrderReader jsonReader;
     private final OrderTableModel orderTableModel;
-    private JFrame parentFrame;
-    private List<Product> products;
+    private final JFrame parentFrame;
+    private final List<Product> products;
 
     public OrderManager(String jsonStorePath, OrderTableModel orderTableModel, JFrame parentFrame) {
         this.orders = new ArrayList<>();
@@ -26,6 +26,7 @@ public class OrderManager {
         this.jsonReader = new OrderReader(jsonStorePath);
         this.orderTableModel = orderTableModel;
         this.parentFrame = parentFrame;
+        this.products = new ArrayList<>();
     }
 
 
@@ -48,13 +49,12 @@ public class OrderManager {
 
     public Order searchOrderById(String orderId) {
         for (Order order : orders) {
-            if (order.getOrderID().equals(orderId)) {
+            if (Order.getOrderID().equals(orderId)) {
                 return order;
             }
         }
         return null; // If no order is found with the given ID
     }
-
 
 
     void saveActiveOrders() {

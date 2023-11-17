@@ -15,7 +15,7 @@ public class Product implements Writable {
     // EFFECTS: Initializes a new Product with the given name, description, price, and product type
     public Product(String name, String description, double price, ProductType productType) {
         this.name = name;
-        this.description = description;
+        Product.description = description;
         this.price = price;
         this.productType = productType;
     }
@@ -47,6 +47,7 @@ public class Product implements Writable {
         this.productType = productType;
     }
 
+    // Converts this product to a JSON object for data persistence.
     @Override
     public JSONObject toJson() {
         JSONObject json = new JSONObject();

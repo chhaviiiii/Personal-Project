@@ -14,7 +14,7 @@ public class OrderCreationPanel extends JPanel {
     private JTextField productTypeField;
     private JTextField productPriceField;
     private JTextField orderDetailsField;
-    private List<Product> products;
+    private final List<Product> products;
 
     public OrderCreationPanel(OrderManager orderManager) {
         this.orderManager = orderManager;

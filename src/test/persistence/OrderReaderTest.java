@@ -100,7 +100,7 @@ public class OrderReaderTest {
 
     @Test
     void testFileNotFound() {
-        OrderReader orderReader = new OrderReader("./data/FileNotFound.json");
+        OrderReader orderReader = new OrderReader("./data/.json");
         Exception exception = assertThrows(FileNotFoundException.class, orderReader::read);
         assertTrue(exception.getMessage().contains("File not found"));
     }

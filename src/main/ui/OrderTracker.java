@@ -15,8 +15,8 @@ public class OrderTracker {
     private final List<Order> orders;
     static final String JSON_STORE = "./data/OrderTrackingBabyyyy.json";
 
-    private OrderWriter jsonWriter;
-    private OrderReader jsonReader;
+    private final OrderWriter jsonWriter;
+    private final OrderReader jsonReader;
 
     public OrderTracker() {
         orders = new ArrayList<>();
@@ -162,12 +162,12 @@ public class OrderTracker {
     public void viewAllActiveOrders() {
         System.out.println("Active orders:");
         for (Order order : orders) {
-            System.out.println("Order ID: " + order.getOrderID() + ","
+            System.out.println("Order ID: " + Order.getOrderID() + ","
                     + "Product Details: "
                     + order.getProductDetails()
                     + ", Customer Details: "
-                    + order.getCustomerDetails()
-                    + ", Status: " + order.getOrderStatus());
+                    + Order.getCustomerDetails()
+                    + ", Status: " + Order.getOrderStatus());
         }
     }
 
@@ -180,7 +180,7 @@ public class OrderTracker {
         String orderId = input.next();
         Order orderToUpdate = null;
         for (Order order : orders) {
-            if (order.getOrderID().equals(orderId)) {
+            if (Order.getOrderID().equals(orderId)) {
                 orderToUpdate = order;
                 break;
             }
@@ -273,6 +273,12 @@ public class OrderTracker {
         }
 
     }
+
+    public static void main(String[] args) {
+        OrderTracker orderTracker = new OrderTracker();
+        orderTracker.start();
+    }
+
 }
 
 

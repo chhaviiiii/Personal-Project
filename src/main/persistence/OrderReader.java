@@ -13,14 +13,20 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+// Reads and parses order data from a JSON file.
+// The OrderReader is responsible for loading order information, including order details, products, and statuses.
 
 public class OrderReader {
-    private String source;
+    private final String source;
+
+// Constructs an OrderReader to read from the specified source file
 
     public OrderReader(String source) {
         this.source = source;
     }
 
+    // Reads the source file and parses its content into a list of Order objects.
+    // Returns an empty list if a JSONException occurs during parsing.
     public List<Order> read() throws FileNotFoundException {
         try {
             String jsonData = readFile(source);
@@ -32,6 +38,9 @@ public class OrderReader {
             return new ArrayList<>();
         }
     }
+
+    // Parses a JSONArray of order data into a list of Order objects.
+    // Each JSONObject in the array is converted into an Order object.
 
     protected String readFile(String source) throws FileNotFoundException {
         StringBuilder contentBuilder = new StringBuilder();
@@ -47,12 +56,13 @@ public class OrderReader {
         return contentBuilder.toString();
     }
 
+    // Parses a JSONArray of product data into a list of Product objects.
+    // Each JSONObject in the array is converted into a Product object.
     public List<Order> parseOrders(JSONArray jsonArray) {
         List<Order> orders = new ArrayList<>();
 
         for (Object json : jsonArray) {
             JSONObject orderJson = (JSONObject) json;
-            String orderID = orderJson.getString("orderID");
             String productDetails = orderJson.getString("productDetails");
             String customerDetails = orderJson.getString("customerDetails");
             OrderStatus orderStatus = OrderStatus.valueOf(orderJson.getString("orderStatus"));
