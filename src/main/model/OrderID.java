@@ -11,7 +11,7 @@ import java.util.List;
 // If it is ProductType.MAKEUP, orderID is "o4". Returns the final orderID string.
 public class OrderID {
 
-    // Sets the orderID¬
+    // Sets the orderID
     public String orderID() {
         return "o";
     }
