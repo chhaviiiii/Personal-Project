@@ -20,6 +20,7 @@ public class Application extends JFrame {
     public Application() {
         // Initialization
         this.orderTableModel = new OrderTableModel(new ArrayList<>());
+
         this.orderManager = new OrderManager(JSON_STORE, orderTableModel, jframe);
         this.orderCreationPanel = new OrderCreationPanel(orderManager);
         this.orderSearchPanel = new OrderSearchPanel(orderManager);
@@ -32,16 +33,23 @@ public class Application extends JFrame {
         initializeUI();
         setTitle("Order Management System");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setSize(800, 600);
+        setSize(1125, 600);
         setLocationRelativeTo(null); // Center on screen
     }
 
     private void showSplashScreen() {
         JWindow splashScreen = new JWindow();
-        ImageIcon imageIcon = new ImageIcon("./data/image.png"); // Load the image
+        ImageIcon imageIcon = new ImageIcon("./data/image.png");
+
+        // Resize the image
+        Image image = imageIcon.getImage();
+        Image resizedImage = image.getScaledInstance(600, 400, Image.SCALE_SMOOTH);
+        imageIcon = new ImageIcon(resizedImage);
+
         JLabel label = new JLabel(imageIcon);
         splashScreen.getContentPane().add(label);
         splashScreen.pack();
+
         splashScreen.setLocationRelativeTo(null); // Center on screen
 
         // Set a timer to dispose of the splash screen
@@ -69,31 +77,44 @@ public class Application extends JFrame {
     }
 
     private void initializeUI() {
+        setJMenuBar(new MenuBuilder(orderManager).createMenuBar());
 
+        //Image
         JPanel imagePanel = createImagePanel();
         add(imagePanel, BorderLayout.NORTH);
         // Layout setup
-        setJMenuBar(new MenuBuilder(orderManager).createMenuBar());
 
-        // Create the main panel with a border layout
         JPanel mainPanel = new JPanel(new BorderLayout());
+        mainPanel.setBackground(Color.BLACK);
 
-        // Add the product table to the center
-        this.productTable = new JTable(orderTableModel);
+        // Table setup
+        productTable = new JTable(orderTableModel);
+        customizeTable(productTable);
         mainPanel.add(new JScrollPane(productTable), BorderLayout.CENTER);
 
-        // Add the order creation panel to the north
-        mainPanel.add(orderCreationPanel, BorderLayout.EAST);
+        // Top panel setup
+        JPanel topPanel = new JPanel(new BorderLayout());
+        topPanel.setOpaque(false);
+        topPanel.add(orderCreationPanel, BorderLayout.WEST);
+        topPanel.add(orderSearchPanel, BorderLayout.EAST);
+        mainPanel.add(topPanel, BorderLayout.NORTH);
 
-        // Add the order search panel to the west
-        mainPanel.add(orderSearchPanel, BorderLayout.NORTH);
-
-        // Add the order status update panel to the east
+        // Bottom panel setup
+        orderStatusUpdatePanel.setOpaque(false);
         mainPanel.add(orderStatusUpdatePanel, BorderLayout.SOUTH);
 
-        // Add the main panel to the frame
         add(mainPanel);
+        showSplashScreen();
     }
+
+    private void customizeTable(JTable table) {
+        table.setOpaque(false);
+        table.setForeground(Color.WHITE);
+        table.setBackground(Color.BLACK);
+        table.getTableHeader().setForeground(Color.WHITE);
+        table.getTableHeader().setBackground(Color.BLACK);
+    }
+
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
@@ -112,3 +133,10 @@ public class Application extends JFrame {
     }
 
 }
+
+// add specifications for the GUI classes
+// change from total price to price of each
+// updating order status should update order table too
+// if customer name changes, then order should be new, without making changes to the old one.
+// if the customer name does not change, then products, should be added
+// update order status(ordertablemodel) is not called

@@ -8,7 +8,7 @@ public class Product implements Writable {
     private final String name;
     private static String description;
     private final double price;
-    private ProductType productType;
+    private static ProductType productType;
 
     // REQUIRES: name, description are non-null strings, price is a non-negative double, productType is non-null
     // MODIFIES: this
@@ -17,7 +17,7 @@ public class Product implements Writable {
         this.name = name;
         Product.description = description;
         this.price = price;
-        this.productType = productType;
+        Product.productType = productType;
     }
 
     // EFFECTS: Returns the product's name
@@ -36,7 +36,7 @@ public class Product implements Writable {
     }
 
     // EFFECTS: Returns the product's type
-    public ProductType getProductType() {
+    public static ProductType getProductType() {
         return productType;
     }
 
@@ -44,7 +44,7 @@ public class Product implements Writable {
     // MODIFIES: this
     // EFFECTS: Sets the product's type to the given productType
     public void setProductType(ProductType productType) {
-        this.productType = productType;
+        Product.productType = productType;
     }
 
     // Converts this product to a JSON object for data persistence.

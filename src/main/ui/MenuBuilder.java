@@ -2,7 +2,6 @@ package ui;
 
 import javax.swing.*;
 
-import static model.Order.getOrderID;
 
 
 public class MenuBuilder {
@@ -22,12 +21,8 @@ public class MenuBuilder {
         JMenuItem loadItem = new JMenuItem("Load Orders");
         loadItem.addActionListener(e -> orderManager.loadActiveOrders());
 
-        JMenuItem searchItem = new JMenuItem("Find Orders");
-        saveItem.addActionListener(e -> orderManager.searchOrderById(getOrderID()));
-
         fileMenu.add(saveItem);
         fileMenu.add(loadItem);
-        fileMenu.add(searchItem);
 
         menuBar.add(fileMenu);
         return menuBar;

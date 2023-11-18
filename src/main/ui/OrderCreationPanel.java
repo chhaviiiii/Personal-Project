@@ -27,8 +27,8 @@ public class OrderCreationPanel extends JPanel {
     private JPanel createOrderForm() {
         JPanel formPanel = new JPanel(new GridLayout(0, 2, 5, 5));
 
-        customerNameField = new JTextField(10);
-        productNameField = new JTextField(10);
+        customerNameField = new JTextField(5);
+        productNameField = new JTextField(5);
         productTypeField = new JTextField(10);
         productPriceField = new JTextField(10);
         orderDetailsField = new JTextField(10);
@@ -39,14 +39,12 @@ public class OrderCreationPanel extends JPanel {
         formPanel.add(new JLabel("Product Name:"));
         formPanel.add(productNameField);
 
-        formPanel.add(new JLabel("Product Type:"));
+        formPanel.add(new JLabel("Product Type:" + "\n(CLOTHES/FOOD/MAKEUP/ELECTRONICS)"));
         formPanel.add(productTypeField);
 
         formPanel.add(new JLabel("Product Price:"));
         formPanel.add(productPriceField);
 
-        formPanel.add(new JLabel("Order Details:"));
-        formPanel.add(orderDetailsField);
 
         return formPanel;
     }
@@ -90,6 +88,5 @@ public class OrderCreationPanel extends JPanel {
         productNameField.setText("");
         productTypeField.setText("");
         productPriceField.setText("");
-        orderDetailsField.setText("");
     }
 }

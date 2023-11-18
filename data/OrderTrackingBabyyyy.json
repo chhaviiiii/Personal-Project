@@ -1,0 +1,12 @@
+{"orders": [{
+    "orderID": "o1",
+    "productsToSell": [{
+        "price": 23,
+        "name": "fs",
+        "description": "",
+        "productType": "CLOTHES"
+    }],
+    "orderStatus": "PLACED",
+    "productDetails": "",
+    "customerDetails": "sf"
+}]}

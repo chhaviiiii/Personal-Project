@@ -28,26 +28,24 @@ public class OrderWriter {
 
     // MODIFIES: this
 // EFFECTS: Writes JSON representation of the list of orders to the file
-    public void write(List<Order> orders) {
-        try {
-            open();  // Ensure the writer is opened
+    public void write(List<Order> orders) throws FileNotFoundException {
+        open();  // Ensure the writer is opened
 
-            JSONObject jsonObject = new JSONObject();  // Create a top-level JSON object
-            JSONArray jsonArray = new JSONArray();
+        JSONObject jsonObject = new JSONObject();  // Create a top-level JSON object
+        JSONArray jsonArray = new JSONArray();
 
-            for (Order order : orders) {
-                JSONObject json = order.toJson();
-                jsonArray.put(json);
-            }
-
-            jsonObject.put("orders", jsonArray);  // Add the "orders" key and associate it with the JSON array
-
-            saveToFile(jsonObject.toString(TAB));
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
+        for (Order order : orders) {
+            JSONObject json = order.toJson();
+            jsonArray.put(json);
         }
+
+        jsonObject.put("orders", jsonArray);  // Add the "orders" key and associate it with the JSON array
+
+        saveToFile(jsonObject.toString(TAB));
+
         close();  // Ensure the writer is closed after writing
     }
+
 
 
     // MODIFIES: this
