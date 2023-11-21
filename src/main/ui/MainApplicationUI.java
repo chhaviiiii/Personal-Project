@@ -8,35 +8,39 @@ import java.util.ArrayList;
 
 import static ui.OrderTracker.JSON_STORE;
 
-public class Application extends JFrame {
+// Main Graph User Interface Application
+public class MainApplicationUI extends JFrame {
     private javax.swing.JFrame jframe;
     private JTable productTable;
     private final OrderTableModel orderTableModel;
     private final OrderManager orderManager;
-    private final OrderCreationPanel orderCreationPanel;
+    private final AddOrderPanel addOrderPanel;
     private final OrderSearchPanel orderSearchPanel;
     private final OrderStatusUpdatePanel orderStatusUpdatePanel;
 
-    public Application() {
+    // Initializes User Interface Application
+    public MainApplicationUI() {
         // Initialization
         this.orderTableModel = new OrderTableModel(new ArrayList<>());
 
         this.orderManager = new OrderManager(JSON_STORE, orderTableModel, jframe);
-        this.orderCreationPanel = new OrderCreationPanel(orderManager);
+        this.addOrderPanel = new AddOrderPanel(orderManager);
         this.orderSearchPanel = new OrderSearchPanel(orderManager);
         this.orderStatusUpdatePanel = new OrderStatusUpdatePanel(orderManager);
-        orderCreationPanel.setBackground(Color.BLACK);
+        addOrderPanel.setBackground(Color.BLACK);
         orderStatusUpdatePanel.setBackground(Color.BLACK);
+        orderStatusUpdatePanel.setForeground(Color.WHITE);
         orderSearchPanel.setBackground(Color.BLACK);
 
 
         initializeUI();
         setTitle("Order Management System");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setSize(1125, 600);
+        setSize(705, 600);
         setLocationRelativeTo(null); // Center on screen
     }
 
+    // Displays Image as application starts
     private void showSplashScreen() {
         JWindow splashScreen = new JWindow();
         ImageIcon imageIcon = new ImageIcon("./data/image.png");
@@ -61,7 +65,7 @@ public class Application extends JFrame {
         splashScreen.setVisible(true);
     }
 
-
+    // Displays logo of the application as the application runs
     private JPanel createImagePanel() {
         JPanel imagePanel = new JPanel() {
             @Override
@@ -75,6 +79,8 @@ public class Application extends JFrame {
         imagePanel.setPreferredSize(new Dimension(200, 100)); // Set preferred size for the image panel
         return imagePanel;
     }
+
+    // Organizes the Application Layout and Initializes different components
 
     private void initializeUI() {
         setJMenuBar(new MenuBuilder(orderManager).createMenuBar());
@@ -95,7 +101,7 @@ public class Application extends JFrame {
         // Top panel setup
         JPanel topPanel = new JPanel(new BorderLayout());
         topPanel.setOpaque(false);
-        topPanel.add(orderCreationPanel, BorderLayout.WEST);
+        topPanel.add(addOrderPanel, BorderLayout.WEST);
         topPanel.add(orderSearchPanel, BorderLayout.EAST);
         mainPanel.add(topPanel, BorderLayout.NORTH);
 
@@ -107,6 +113,8 @@ public class Application extends JFrame {
         showSplashScreen();
     }
 
+
+    // Customizes the font and background colour
     private void customizeTable(JTable table) {
         table.setOpaque(false);
         table.setForeground(Color.WHITE);
@@ -115,10 +123,11 @@ public class Application extends JFrame {
         table.getTableHeader().setBackground(Color.BLACK);
     }
 
+    // main method to run application
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            Application app = new Application(); // Create the main application instance
+            MainApplicationUI app = new MainApplicationUI(); // Create the main application instance
             app.showSplashScreen(); // Show the splash screen
 
             // Listener to make the main window visible after the splash screen is closed
@@ -134,9 +143,3 @@ public class Application extends JFrame {
 
 }
 
-// add specifications for the GUI classes
-// change from total price to price of each
-// updating order status should update order table too
-// if customer name changes, then order should be new, without making changes to the old one.
-// if the customer name does not change, then products, should be added
-// update order status(ordertablemodel) is not called

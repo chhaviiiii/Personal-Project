@@ -47,7 +47,6 @@ public class OrderWriter {
     }
 
 
-
     // MODIFIES: this
     // EFFECTS: Closes the writer
     public void close() {

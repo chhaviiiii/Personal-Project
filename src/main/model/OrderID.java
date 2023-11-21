@@ -3,6 +3,7 @@ package model;
 import java.util.List;
 
 
+
 // REQUIRES: A list of Product objects. The list can be null.
 // MODIFIES: This can modify the value of orderID.
 // EFFECTS: Given a list of products, generates a unique orderID string. If the list is null, returns just "o".
@@ -22,14 +23,14 @@ public class OrderID {
             return "o";
         }
         for (Product product : products) {
-            if (product.getProductType() == ProductType.CLOTHES) {
-                orderID = "o1";
-            } else if (product.getProductType() == ProductType.ELECTRONICS) {
-                orderID = "o2";
-            } else if (product.getProductType() == ProductType.FOOD) {
-                orderID = "o3";
-            } else if (product.getProductType() == ProductType.MAKEUP) {
-                orderID = "o4";
+            if (Product.getProductType() == ProductType.CLOTHES) {
+                orderID = "C" + (int)(Math.random() * 99);
+            } else if (Product.getProductType() == ProductType.ELECTRONICS) {
+                orderID = "E" + (int)(Math.random() * 99);
+            } else if (Product.getProductType() == ProductType.FOOD) {
+                orderID = "F" + (int)(Math.random() * 99);
+            } else if (Product.getProductType() == ProductType.MAKEUP) {
+                orderID = "M" + (int)(Math.random() * 99);
             }
         }
         return orderID;

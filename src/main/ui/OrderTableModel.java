@@ -1,7 +1,6 @@
 package ui;
 
 import model.Order;
-import model.OrderStatus;
 import model.Product;
 
 import javax.swing.table.AbstractTableModel;
@@ -14,23 +13,18 @@ public class OrderTableModel extends AbstractTableModel {
             "Order ID", "Customer Name", "Order Status", "Products (Name - Price)"
     };
 
-    private List<Order> orders;
+    private static List<Order> orders;
 
     // Constructs an OrderTableModel with a given list of orders.
 
     public OrderTableModel(List<Order> orders) {
-        this.orders = orders;
+        OrderTableModel.orders = orders;
     }
 
-    // Adds an order to the table model and refreshes the table data.
-    public void addOrder(Order order) {
-        this.orders.add(order);
-        fireTableDataChanged(); // Notify the table that data has changed
-    }
 
     // Sets the list of orders in the model and refreshes the table data.
     public void setOrders(List<Order> orders) {
-        this.orders = orders;
+        OrderTableModel.orders = orders;
         fireTableDataChanged(); // Notify the table that data has changed
     }
 
@@ -59,11 +53,11 @@ public class OrderTableModel extends AbstractTableModel {
         Order order = orders.get(rowIndex);
         switch (columnIndex) {
             case 0:
-                return Order.getOrderID();
+                return order.getOrderID();
             case 1:
-                return Order.getCustomerDetails();
+                return order.getCustomerName();
             case 2:
-                return Order.getOrderStatus().toString();
+                return order.getOrderStatus().toString();
             case 3:
                 return getProductNamesWithPrices(order.getProductsToSell());
             default:
@@ -72,7 +66,6 @@ public class OrderTableModel extends AbstractTableModel {
     }
 
     // Constructs a string containing product names and prices
-
     private String getProductNamesWithPrices(List<Product> products) {
         StringBuilder productDetails = new StringBuilder();
         for (Product product : products) {
@@ -84,15 +77,6 @@ public class OrderTableModel extends AbstractTableModel {
         return productDetails.toString();
     }
 
-    // Updates the status of an order by order ID and refreshes the table data.
-
-    public void updateOrderStatus(String orderId, OrderStatus newStatus) {
-        for (Order order : orders) {
-            if (Order.getOrderID().equals(orderId)) {
-                order.updateOrderStatus(newStatus);
-                fireTableDataChanged(); // Refresh table data
-                break;
-            }
-        }
-    }
 }
+
+

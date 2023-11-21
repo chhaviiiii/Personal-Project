@@ -5,15 +5,19 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import model.Order;
 
+
+// Panel that allows the user to search for an existing order
 public class OrderSearchPanel extends JPanel {
     private final OrderManager orderManager;
 
+    // Search for an order ID and display the found order
     public OrderSearchPanel(OrderManager orderManager) {
         this.orderManager = orderManager;
         setLayout(new BorderLayout());
         add(createSearchComponents(), BorderLayout.CENTER);
     }
 
+    // Elements of the Order Search Panel
     private JPanel createSearchComponents() {
         JPanel searchPanel = new JPanel(new FlowLayout());
 
@@ -24,7 +28,6 @@ public class OrderSearchPanel extends JPanel {
         searchPanel.add(searchField);
         searchPanel.add(searchButton);
 
-        // Add action listener to search field and button
         ActionListener searchAction = e -> searchOrder(searchField.getText());
         searchField.addActionListener(searchAction);
         searchButton.addActionListener(searchAction);
@@ -32,11 +35,12 @@ public class OrderSearchPanel extends JPanel {
         return searchPanel;
     }
 
+    // Search for an order ID and display the found order
     private void searchOrder(String orderId) {
         Order order = orderManager.searchOrderById(orderId);
         if (order != null) {
-            // Display the found order
-            // You can update a table model or show a dialog with order details
+
+
             JOptionPane.showMessageDialog(this, "Order found: \n" + order,
                     "Order Search", JOptionPane.INFORMATION_MESSAGE);
         } else {

@@ -4,72 +4,91 @@ import model.OrderStatus;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
+// Updates the Order Status of the selected order
 public class OrderStatusUpdatePanel extends JPanel {
-    private final OrderManager orderManager;
+    private final OrderManager orderManager;  // Non-static
+    private JTextField orderIdField;    // Non-static
+    private JComboBox<String> statusDropdown;  // Non-static
 
+    // Allows Order Manager to update the status of an existing order
     public OrderStatusUpdatePanel(OrderManager orderManager) {
         this.orderManager = orderManager;
-        setLayout(new BorderLayout());
-        add(createStatusUpdateControls(), BorderLayout.CENTER);
+        initializeComponents();
+        setupLayout();
+        setupListeners();
     }
 
-    private JPanel createOrderInputAndStatusPanel() {
-        JPanel inputAndStatusPanel = new JPanel(new GridLayout(0, 1)); // Grid layout for organized rows
-
-        // Label and TextField for Order ID
-        JLabel orderIdLabel = new JLabel("Order ID:");
-        JTextField orderIdField = new JTextField(10);
-        JPanel orderIdPanel = new JPanel();
-        orderIdPanel.add(orderIdLabel);
-        orderIdPanel.add(orderIdField);
-        inputAndStatusPanel.add(orderIdPanel);
-
-        // Dropdown for Status
-        JLabel statusLabel = new JLabel("Status:");
-        String[] statuses = {"PLACED", "PROCESSED", "SHIPPED", "DELIVERED", "COMPLETE"}; // Example statuses
-        JComboBox<String> statusDropdown = new JComboBox<>(statuses);
-        JPanel statusPanel = new JPanel();
-        statusPanel.add(statusLabel);
-        statusPanel.add(statusDropdown);
-        inputAndStatusPanel.add(statusPanel);
-
-        return inputAndStatusPanel;
+    // Elements of the Panel
+    private void initializeComponents() {
+        orderIdField = new JTextField(10);
+        statusDropdown = new JComboBox<>(new String[]{"PLACED", "PROCESSED", "SHIPPED", "DELIVERED", "COMPLETE"});
     }
 
-    private JButton createUpdateButton(JTextField orderIdField, JComboBox<String> statusDropdown) {
+    // Panel Layout
+    private void setupLayout() {
+        setLayout(new GridBagLayout());
+        GridBagConstraints gridBagConstraints = new GridBagConstraints();
+        gridBagConstraints.insets = new Insets(5, 5, 5, 5);
+
+        addOrderIdComponents(gridBagConstraints);
+        addStatusComponents(gridBagConstraints);
+        addUpdateButton(gridBagConstraints);
+    }
+
+    // Order ID components
+    private void addOrderIdComponents(GridBagConstraints gridBagConstraints) {
+        JLabel orderIdLabel = createWhiteLabel("Order ID:");
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        add(orderIdLabel, gridBagConstraints);
+
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        add(orderIdField, gridBagConstraints);
+    }
+
+    // Status Components
+    private void addStatusComponents(GridBagConstraints gridBagConstraints) {
+        JLabel statusLabel = createWhiteLabel("Status:");
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        add(statusLabel, gridBagConstraints);
+
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        add(statusDropdown, gridBagConstraints);
+    }
+
+    // Update Status Button
+    private void addUpdateButton(GridBagConstraints gridBagConstraints) {
         JButton updateButton = new JButton("Update Status");
-        updateButton.addActionListener(e -> {
-            String selectedOrderId = orderIdField.getText();
-            String selectedStatus = (String) statusDropdown.getSelectedItem();
-            orderManager.updateOrderStatus(selectedOrderId, OrderStatus.valueOf(selectedStatus));
-            orderIdField.setText("");
-            JOptionPane.showMessageDialog(null, "Order status updated!");
-        });
-
-        return updateButton;
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = 2;
+        add(updateButton, gridBagConstraints);
     }
 
-    private JPanel createStatusUpdateControls() {
-        JPanel updatePanel = new JPanel(new GridLayout(0, 1)); // Grid layout for organized rows
+    // Customization of the Label
+    private JLabel createWhiteLabel(String text) {
+        JLabel label = new JLabel(text);
+        label.setForeground(Color.WHITE);
+        return label;
+    }
 
-        // Create Order Input and Status Panel
-        JPanel orderInputAndStatusPanel = createOrderInputAndStatusPanel();
-        updatePanel.add(orderInputAndStatusPanel);
+    // Action Button Listener
+    private void setupListeners() {
+        JButton updateButton = (JButton) getComponent(4);
+        updateButton.addActionListener(e -> updateOrderStatus());
+    }
 
-        // Extracting order ID field and status dropdown for use in the button creation
-        JTextField orderIdField = (JTextField) ((JPanel) orderInputAndStatusPanel.getComponent(0)).getComponent(1);
-        JComboBox<String> statusDropdown = (JComboBox<String>)
-                ((JPanel) orderInputAndStatusPanel.getComponent(1)).getComponent(1);
-
-        // Create Update Button
-        JButton updateButton = createUpdateButton(orderIdField, statusDropdown);
-        updatePanel.add(updateButton);
-
-        return updatePanel;
+    // Method to update the order status and display message
+    private void updateOrderStatus() {
+        String selectedOrderId = orderIdField.getText();
+        OrderStatus selectedStatus = OrderStatus.valueOf((String) statusDropdown.getSelectedItem());
+        orderManager.updateOrderStatus(selectedOrderId, selectedStatus);
+        orderIdField.setText("");
+        JOptionPane.showMessageDialog(null, "Order status updated!");
     }
 }
-
 

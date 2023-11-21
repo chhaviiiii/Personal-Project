@@ -1,12 +1,38 @@
-{"orders": [{
-    "orderID": "o1",
-    "productsToSell": [{
-        "price": 23,
-        "name": "fs",
-        "description": "",
-        "productType": "CLOTHES"
-    }],
-    "orderStatus": "PLACED",
-    "productDetails": "",
-    "customerDetails": "sf"
-}]}
+{"orders": [
+    {
+        "orderID": "M",
+        "productsToSell": [{
+            "price": 1,
+            "name": "1",
+            "description": "",
+            "productType": "MAKEUP"
+        }],
+        "orderStatus": "PROCESSED",
+        "productDetails": "",
+        "customerDetails": "1"
+    },
+    {
+        "orderID": "M",
+        "productsToSell": [{
+            "price": 2,
+            "name": "1",
+            "description": "",
+            "productType": "MAKEUP"
+        }],
+        "orderStatus": "PLACED",
+        "productDetails": "",
+        "customerDetails": "2"
+    },
+    {
+        "orderID": "M",
+        "productsToSell": [{
+            "price": 3,
+            "name": "3",
+            "description": "",
+            "productType": "MAKEUP"
+        }],
+        "orderStatus": "PLACED",
+        "productDetails": "",
+        "customerDetails": "3"
+    }
+]}

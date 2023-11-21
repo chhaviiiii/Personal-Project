@@ -8,9 +8,9 @@ import java.util.List;
 
 // This represents an order with an ID, status and description.
 public class Order implements Writable {
-    private static String orderID;
-    private static String customerDetails;
-    private static OrderStatus orderStatus;
+    private final String orderID;
+    private final String customerName;
+    private OrderStatus orderStatus;
     private final String productDetails;
     private List<Product> productsToSell;
 
@@ -22,25 +22,25 @@ public class Order implements Writable {
                  String customerDetails,
                  OrderStatus orderStatus,
                  List<Product> productsToSell) {
-        Order.orderID = orderID;
+        this.orderID = orderID;
         this.productDetails = productDetails;
-        Order.customerDetails = customerDetails;
-        Order.orderStatus = orderStatus;
+        this.customerName = customerDetails;
+        this.orderStatus = orderStatus;
         this.productsToSell = productsToSell;
     }
 
     // EFFECTS: Returns customer details
-    public static String getCustomerDetails() {
-        return customerDetails;
+    public String getCustomerName() {
+        return customerName;
     }
 
     // EFFECTS: Returns order ID
-    public static String getOrderID() {
+    public String getOrderID() {
         return orderID;
     }
 
     // EFFECTS: Returns order status
-    public static OrderStatus getOrderStatus() {
+    public OrderStatus getOrderStatus() {
         return orderStatus;
     }
 
@@ -91,12 +91,12 @@ public class Order implements Writable {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("Order ID: ").append(getOrderID())
-                .append(", Customer Details: ").append(getCustomerDetails())
+                .append(", Customer Details: ").append(getCustomerName())
                 .append(", Order Status: ").append(getOrderStatus());
 
         for (Product product : getProductsToSell()) {
             sb.append("\n\tProduct Name: ").append(product.getName())
-                    .append(", Type: ").append(product.getProductType())
+                    .append(", Type: ").append(Product.getProductType())
                     .append(", Price: ").append(product.getPrice());
         }
         return sb.toString();
@@ -108,7 +108,7 @@ public class Order implements Writable {
         JSONObject json = new JSONObject();
         json.put("orderID", orderID);
         json.put("productDetails", productDetails);
-        json.put("customerDetails", customerDetails);
+        json.put("customerDetails", customerName);
         json.put("orderStatus", orderStatus.toString());
         json.put("productsToSell", productsToJson());
 

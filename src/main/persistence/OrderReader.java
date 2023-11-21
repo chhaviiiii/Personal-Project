@@ -1,9 +1,6 @@
 package persistence;
 
-import model.Order;
-import model.OrderStatus;
-import model.Product;
-import model.ProductType;
+import model.*;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -78,8 +75,8 @@ public class OrderReader {
                 Product product = new Product(productName, productDescription, productPrice, productType);
                 productsToSell.add(product);
             }
-
-            Order order = new Order(Order.getOrderID(), productDetails, customerDetails, orderStatus, productsToSell);
+            String orderID = OrderID.generateOrderID(productsToSell);
+            Order order = new Order(orderID, productDetails, customerDetails, orderStatus, productsToSell);
             orders.add(order);
         }
 

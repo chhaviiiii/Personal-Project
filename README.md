@@ -18,16 +18,13 @@ Understanding the importance of effective order and task management systems in r
 
 ## User Stories
 
-- As a business owner, I want to add a new order to the tracker so I can keep track of all active orders.
+- As a business owner, I want to add a new order to the tracker, so I can keep track of all active orders.
 
 
 - As an employee, I want to view all the active orders so that I can process them in a timely manner. 
 
 
 - As an order manager, I want to update the status of an order to reflect its current progress. 
-
-
-- As a business owner, I want to remove the completed orders from the active list to keep the list clean and manageable. 
 
 
 - As a customer service representative, I want to search for a specific order using the order ID to provide updates or changes to the customer.
@@ -43,8 +40,16 @@ Understanding the importance of effective order and task management systems in r
 
 # Instructions for Grader
 
-- You can generate the first required action related to the user story "adding multiple Xs to a Y" by...
-- You can generate the second required action related to the user story "adding multiple Xs to a Y" by...
-- You can locate my visual component by...
-- You can save the state of my application by...
-- You can reload the state of my application by...
+- You can generate the first required action related to the user story "adding multiple Xs to a Y" by filling out the information on the form (customer name, product name, product type, product price) and clicking on add order.
+
+
+- You can generate the first required action related to the user story "adding multiple Xs to a Y" by filling out the information on the form (customer name, product name, product type, product price) and clicking on add order.*
+
+If you change the name of the customer then a new order is created, otherwise if the name of the customer is the same then the product is simply added to the existing order
+- You can locate my visual component by running the application and a splash screen will be displayed.
+
+
+- You can save the state of my application by clicking on "File" and pressing Save Orders.
+
+
+- You can reload the state of my application by clicking on "File" and pressing Load Orders.

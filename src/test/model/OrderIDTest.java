@@ -42,34 +42,34 @@ class OrderIDTest {
         ArrayList<Product> products4 = new ArrayList<>();
         products4.add(product4);
 
-        assertEquals("o1", OrderID.generateOrderID(products1));
-        assertEquals("o2", OrderID.generateOrderID(products2));
-        assertEquals("o3", OrderID.generateOrderID(products3));
-        assertEquals("o4", OrderID.generateOrderID(products4));
+        assertEquals("M" + (int)(Math.random() * 99), OrderID.generateOrderID(products1));
+        assertEquals("E" + (int)(Math.random() * 99), OrderID.generateOrderID(products2));
+        assertEquals("F" + (int)(Math.random() * 99), OrderID.generateOrderID(products3));
+        assertEquals("M" + (int)(Math.random() * 99), OrderID.generateOrderID(products4));
     }
 
     @Test
     void generateOrderID_forClothes() {
         products.add(new Product("Shirt", "Blue shirt", 20, ProductType.CLOTHES));
-        assertEquals("o1", OrderID.generateOrderID(products));
+        assertEquals("C" + (int)(Math.random() * 99), OrderID.generateOrderID(products));
     }
 
     @Test
     void generateOrderID_forElectronics() {
         products.add(new Product("Laptop", "High performance laptop", 1000, ProductType.ELECTRONICS));
-        assertEquals("o2", OrderID.generateOrderID(products));
+        assertEquals("E" + (int)(Math.random() * 99), OrderID.generateOrderID(products));
     }
 
     @Test
     void generateOrderID_forFood() {
         products.add(new Product("Apple", "Green apple", 1, ProductType.FOOD));
-        assertEquals("o3", OrderID.generateOrderID(products));
+        assertEquals("F" + (int)(Math.random() * 99), OrderID.generateOrderID(products));
     }
 
     @Test
     void generateOrderID_forMakeup() {
         products.add(new Product("Lipstick", "Red lipstick", 15, ProductType.MAKEUP));
-        assertEquals("o4", OrderID.generateOrderID(products));
+        assertEquals("M" + (int)(Math.random() * 99), OrderID.generateOrderID(products));
     }
 
     @Test
@@ -77,21 +77,21 @@ class OrderIDTest {
         products.add(new Product("1", "Shirt", 50, ProductType.CLOTHES));
         products.add(new Product("2", "Laptop", 1000, ProductType.ELECTRONICS));
         products.add(new Product("3", "Apple", 1, ProductType.FOOD));
-        assertEquals("o3", OrderID.generateOrderID(products)); // or whatever logic you have for multiple different type products
+        assertEquals("F" + (int)(Math.random() * 99), OrderID.generateOrderID(products)); // or whatever logic you have for multiple different type products
     }
 
     @Test
     void testGenerateOrderID_withMultipleSameProducts() {
         products.add(new Product("1", "Shirt", 50, ProductType.CLOTHES));
         products.add(new Product("2", "Pants", 40, ProductType.CLOTHES));
-        assertEquals("o1", OrderID.generateOrderID(products));
+        assertEquals("C" + (int)(Math.random() * 99), OrderID.generateOrderID(products));
     }
 
 
     @Test
     void testGenerateOrderID_withInvalidProductType() {
         products.add(new Product("1", "Shirt", 50, null));
-        assertEquals("o", OrderID.generateOrderID(products));
+        assertEquals("o" , OrderID.generateOrderID(products));
     }
 
     @Test

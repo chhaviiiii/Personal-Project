@@ -64,7 +64,7 @@ class OrderTest {
 
     @Test
     void getCustomerDetailsTest() {
-        String customerDetails = order.getCustomerDetails();
+        String customerDetails = order.getCustomerName();
         assertEquals("John Doe", customerDetails);
     }
 
@@ -139,7 +139,7 @@ class OrderTest {
     @Test
     void testGetCustomerDetailsForUnassignedOrder() {
         Order unassignedOrder = new Order("4", "Books", "", OrderStatus.PROCESSED, new ArrayList<>(List.of(product1)));
-        String customerDetails = unassignedOrder.getCustomerDetails();
+        String customerDetails = unassignedOrder.getCustomerName();
         assertEquals("", customerDetails);
         // as there is no customer, customer details should be empty
     }

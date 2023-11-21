@@ -68,7 +68,7 @@ public class OrderTracker {
         String customerDetails = getCustomerDetails(input);
 
         String orderID = OrderID.generateOrderID(productsToSell);
-        Order newOrder = new Order(Order.getOrderID(), " (in Order): "
+        Order newOrder = new Order(orderID, " (in Order): "
                 + productsToSell.size(),
                 customerDetails,
                 OrderStatus.PLACED, productsToSell);
@@ -162,12 +162,12 @@ public class OrderTracker {
     public void viewAllActiveOrders() {
         System.out.println("Active orders:");
         for (Order order : orders) {
-            System.out.println("Order ID: " + Order.getOrderID() + ","
+            System.out.println("Order ID: " + order.getOrderID() + ","
                     + "Product Details: "
                     + order.getProductDetails()
                     + ", Customer Details: "
-                    + Order.getCustomerDetails()
-                    + ", Status: " + Order.getOrderStatus());
+                    + order.getCustomerName()
+                    + ", Status: " + order.getOrderStatus());
         }
     }
 
@@ -180,7 +180,7 @@ public class OrderTracker {
         String orderId = input.next();
         Order orderToUpdate = null;
         for (Order order : orders) {
-            if (Order.getOrderID().equals(orderId)) {
+            if (order.getOrderID().equals(orderId)) {
                 orderToUpdate = order;
                 break;
             }
