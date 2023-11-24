@@ -23,7 +23,8 @@ public class AddOrderPanel extends JPanel {
         add(createAddButton(), BorderLayout.SOUTH);
     }
 
-    // Creates the form for the user to put the information in
+    // EFFECTS: Returns a JPanel that contains the form for adding orders,
+    // including fields for customer name, product name, product type, and product price.
     private JPanel createOrderForm() {
         JPanel formPanel = new JPanel(new GridLayout(0, 2, 5, 5));
 
@@ -48,7 +49,7 @@ public class AddOrderPanel extends JPanel {
         return formPanel;
     }
 
-    // Creates Add order button
+    // EFFECTS: Returns a JButton that, when clicked, triggers the process to create and add a product to an order.
     private JButton createAddButton() {
         JButton addButton = new JButton("Add Order");
         addButton.addActionListener(e -> createAndAddProductToOrder());
@@ -56,7 +57,10 @@ public class AddOrderPanel extends JPanel {
     }
 
 
-    // Adds and updates order list in  the order table model
+    // REQUIRES: Valid inputs in the customerNameField, productNameField, productTypeDropdown, and productPriceField.
+    // EFFECTS: Attempts to create a product from user input, add or update an order with this product,
+    // clear input fields, and refresh the UI. Displays error messages in case of invalid input.
+    // MODIFIES: Modifies the state of orderManager and potentially the UI components (input fields).
     private void createAndAddProductToOrder() {
         try {
             Product product = createProductFromInput();
@@ -71,7 +75,9 @@ public class AddOrderPanel extends JPanel {
     }
 
 
-    // Focuses on the product details such as product type, name, price
+    // REQUIRES: Valid inputs in the productNameField, productTypeDropdown, and productPriceField.
+    // EFFECTS: Creates and returns a Product instance based on user inputs.
+    // Throws NumberFormatException if the price input is invalid.
     private Product createProductFromInput() throws NumberFormatException {
         String productName = productNameField.getText();
         ProductType productType = ProductType.valueOf(((String)
@@ -80,8 +86,10 @@ public class AddOrderPanel extends JPanel {
         return new Product(productName, "", productPrice, productType);
     }
 
-    // If the customer string is the same as an existing order then it updates the order by adding products
-
+    // REQUIRES: A non-null Product object.
+    // EFFECTS: Adds the given product to an existing order for the given customer,
+    // or creates a new order if one doesn't exist.
+    //MODIFIES: Modifies the OrderManager's state by adding or updating orders.
     private void addOrUpdateOrder(Product product) {
         String customerName = customerNameField.getText();
         Optional<Order> existingOrder = orderManager.findOrderForCustomer(customerName);
@@ -97,7 +105,9 @@ public class AddOrderPanel extends JPanel {
     }
 
 
-    // Lowkey do not need it but clears the fields after an order is added
+    // EFFECTS: Clears the text in the customerNameField, productNameField, productPriceField,
+    // and resets the productTypeDropdown to its default state.
+    // MODIFIES: Modifies the state of the UI components (input fields).
     private void clearInputFields() {
         customerNameField.setText("");
         productNameField.setText("");

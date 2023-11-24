@@ -18,7 +18,9 @@ public class MainApplicationUI extends JFrame {
     private final OrderSearchPanel orderSearchPanel;
     private final OrderStatusUpdatePanel orderStatusUpdatePanel;
 
-    // Initializes User Interface Application
+    // EFFECTS: Initializes the main user interface for the application, including order management, order searching,
+    // and order status update panels. Sets up the UI layout and appearance.
+    // MODIFIES: Modifies this object (MainApplicationUI), creating and configuring various UI components and panels.
     public MainApplicationUI() {
         // Initialization
         this.orderTableModel = new OrderTableModel(new ArrayList<>());
@@ -40,7 +42,8 @@ public class MainApplicationUI extends JFrame {
         setLocationRelativeTo(null); // Center on screen
     }
 
-    // Displays Image as application starts
+    // EFFECTS: Displays a splash screen with an image for a set duration when the application starts.
+    // The splash screen is centered on the screen.
     private void showSplashScreen() {
         JWindow splashScreen = new JWindow();
         ImageIcon imageIcon = new ImageIcon("./data/image.png");
@@ -65,7 +68,7 @@ public class MainApplicationUI extends JFrame {
         splashScreen.setVisible(true);
     }
 
-    // Displays logo of the application as the application runs
+    // EFFECTS: Creates and returns a JPanel that displays an image. The image is resized to fit the panel's dimensions.
     private JPanel createImagePanel() {
         JPanel imagePanel = new JPanel() {
             @Override
@@ -80,8 +83,10 @@ public class MainApplicationUI extends JFrame {
         return imagePanel;
     }
 
-    // Organizes the Application Layout and Initializes different components
-
+    // EFFECTS: Sets up the main user interface layout, including menu bar, image panel, main panel,
+    // table for displaying orders, and top and bottom panels for order management functionalities.
+    // Calls showSplashScreen method to display the splash screen.
+    // MODIFIES: Modifies this object (MainApplicationUI), setting up and arranging its internal components.
     private void initializeUI() {
         setJMenuBar(new MenuBuilder(orderManager).createMenuBar());
 
@@ -114,7 +119,9 @@ public class MainApplicationUI extends JFrame {
     }
 
 
-    // Customizes the font and background colour
+    // EFFECTS: Customizes the appearance of the provided JTable, setting its opacity, foreground,
+    // and background colors, as well as the colors of its header.
+    // MODIFIES: Modifies the provided JTable object, altering its visual properties.
     private void customizeTable(JTable table) {
         table.setOpaque(false);
         table.setForeground(Color.WHITE);
@@ -123,8 +130,9 @@ public class MainApplicationUI extends JFrame {
         table.getTableHeader().setBackground(Color.BLACK);
     }
 
-    // main method to run application
-
+    // EFFECTS: Entry point for the application. Initializes and displays the main application UI,
+    // including a splash screen.
+    // Sets up a window listener to make the main application window visible after the splash screen is closed.
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             MainApplicationUI app = new MainApplicationUI(); // Create the main application instance

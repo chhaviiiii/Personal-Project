@@ -7,12 +7,15 @@ import javax.swing.*;
 public class MenuBuilder {
     private final OrderManager orderManager;
 
-    // Data Persistence
+    // REQUIRES: A non-null OrderManager object.
+    // EFFECTS: Initializes a MenuBuilder instance with the given OrderManager.
+    // MODIFIES: Modifies this MenuBuilder instance by setting its orderManager field.
     public MenuBuilder(OrderManager orderManager) {
         this.orderManager = orderManager;
     }
 
-    // Adds different components from the Order Manager to the menu bar
+    // EFFECTS: Creates a JMenuBar containing a "File" menu with options to save and load orders.
+    // Attaches action listeners to these menu items to save and load orders using the OrderManager.
     public JMenuBar createMenuBar() {
         JMenuBar menuBar = new JMenuBar();
         JMenu fileMenu = new JMenu("File");

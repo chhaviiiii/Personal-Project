@@ -10,14 +10,18 @@ import model.Order;
 public class OrderSearchPanel extends JPanel {
     private final OrderManager orderManager;
 
-    // Search for an order ID and display the found order
+    // REQUIRES: A non-null OrderManager object.
+    // EFFECTS: Initializes an OrderSearchPanel with the given OrderManager.
+    // Sets up the layout and adds search components.
+    // MODIFIES: This object (OrderSearchPanel), modifying its layout and components.
     public OrderSearchPanel(OrderManager orderManager) {
         this.orderManager = orderManager;
         setLayout(new BorderLayout());
         add(createSearchComponents(), BorderLayout.CENTER);
     }
 
-    // Elements of the Order Search Panel
+    // EFFECTS: Creates and returns a JPanel containing components for order searching, including a label,
+    // a text field for inputting the order ID, and a search button.
     private JPanel createSearchComponents() {
         JPanel searchPanel = new JPanel(new FlowLayout());
 
@@ -35,7 +39,10 @@ public class OrderSearchPanel extends JPanel {
         return searchPanel;
     }
 
-    // Search for an order ID and display the found order
+    // REQUIRES: orderId should be a non-null string.
+    // EFFECTS: Searches for an order with the given ID using OrderManager.
+    // Displays a message dialog showing the order details if found, or an error message if not found.
+    // MODIFIES: Potentially modifies the UI by displaying a message dialog.
     private void searchOrder(String orderId) {
         Order order = orderManager.searchOrderById(orderId);
         if (order != null) {
