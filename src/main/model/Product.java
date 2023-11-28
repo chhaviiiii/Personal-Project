@@ -45,6 +45,7 @@ public class Product implements Writable {
     // EFFECTS: Sets the product's type to the given productType
     public void setProductType(ProductType productType) {
         Product.productType = productType;
+        EventLog.getInstance().logEvent(new Event("Type of Product: " + productType));
     }
 
     // Converts this product to a JSON object for data persistence.
@@ -56,5 +57,6 @@ public class Product implements Writable {
         json.put("price", price);
         json.put("productType", productType.toString());
         return json;
+
     }
 }

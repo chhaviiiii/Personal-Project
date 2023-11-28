@@ -1,50 +1,34 @@
 {"orders": [
     {
-        "orderID": "M35",
-        "productsToSell": [{
-            "price": 1,
-            "name": "1",
-            "description": "",
-            "productType": "CLOTHES"
-        }],
-        "orderStatus": "PROCESSED",
-        "productDetails": "",
-        "customerDetails": "1"
-    },
-    {
-        "orderID": "M88",
-        "productsToSell": [{
-            "price": 2,
-            "name": "1",
-            "description": "",
-            "productType": "CLOTHES"
-        }],
+        "orderID": "C43",
+        "productsToSell": [
+            {
+                "price": 34,
+                "name": "hty",
+                "description": "",
+                "productType": "MAKEUP"
+            },
+            {
+                "price": 34,
+                "name": "sf",
+                "description": "",
+                "productType": "MAKEUP"
+            }
+        ],
         "orderStatus": "PLACED",
         "productDetails": "",
-        "customerDetails": "2"
+        "customerDetails": "dg"
     },
     {
-        "orderID": "M57",
+        "orderID": "M43",
         "productsToSell": [{
-            "price": 3,
-            "name": "3",
+            "price": 4,
+            "name": "43",
             "description": "",
-            "productType": "CLOTHES"
+            "productType": "MAKEUP"
         }],
-        "orderStatus": "PLACED",
+        "orderStatus": "DELIVERED",
         "productDetails": "",
-        "customerDetails": "3"
-    },
-    {
-        "orderID": "C9",
-        "productsToSell": [{
-            "price": 23,
-            "name": "SJKFNS",
-            "description": "",
-            "productType": "CLOTHES"
-        }],
-        "orderStatus": "PLACED",
-        "productDetails": "",
-        "customerDetails": "ESF"
+        "customerDetails": "s"
     }
 ]}

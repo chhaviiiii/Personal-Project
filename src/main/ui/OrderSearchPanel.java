@@ -1,9 +1,12 @@
 package ui;
 
+import model.Order;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
-import model.Order;
+
+import static model.Order.searchOrderID;
 
 
 // Panel that allows the user to search for an existing order
@@ -46,12 +49,14 @@ public class OrderSearchPanel extends JPanel {
     private void searchOrder(String orderId) {
         Order order = orderManager.searchOrderById(orderId);
         if (order != null) {
-
-
             JOptionPane.showMessageDialog(this, "Order found: \n" + order,
                     "Order Search", JOptionPane.INFORMATION_MESSAGE);
+            searchOrderID(orderId, true); // Order found
         } else {
-            JOptionPane.showMessageDialog(this, "Order not found.", "Order Search", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this,
+                    "Order not found.",
+                    "Order Search", JOptionPane.ERROR_MESSAGE);
+            searchOrderID(orderId, false); // Order not found
         }
     }
 }

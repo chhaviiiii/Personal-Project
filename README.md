@@ -53,3 +53,33 @@ If you change the name of the customer then a new order is created, otherwise if
 
 
 - You can reload the state of my application by clicking on "File" and pressing Load Orders.
+
+# Phase 4: Task 2
+
+Tue Nov 28 15:04:44 PST 2023
+
+Products added to Order: [model.Product@26b9e54e, model.Product@155f1aac]
+
+Tue Nov 28 15:05:02 PST 2023
+
+Order Status updated: DELIVERED
+
+Tue Nov 28 15:05:07 PST 2023
+
+Order found for ID: M43
+
+Tue Nov 28 15:05:10 PST 2023
+
+Orders saved to File
+
+# Phase 4: Task 3
+
+-  The OrderManager class appears to be a central point for various functionalities related to orders. This class could become a maintenance issue as the application grows due to the high number of responsibilities it holds.
+
+Refactoring this class into multiple classes that each handle a single responsibility could improve the design. For instance, breaking down *OrderManager* into **OrderSearchService, OrderCreationService,** and **OrderUpdateService** would make the system more modular and easier to maintain.
+
+- *OrderSearchPanel* and *AddOrderPanel* directly depend on *OrderManager*. Introducing dependency injection could decouple these classes from the concrete implementation of *OrderManager*.
+
+Instead of instantiating an OrderManager inside these panels, the OrderManager could be passed to the constructor or set via a setter method. This would make the system more testable and flexible, allowing for easier substitution of the OrderManager with different implementations or mocks for testing.
+
+- The MainApplicationUI seems is the central hub for the user interface. It is currently handling too many UI elements or actions, it could be refactored into smaller, more focused classes

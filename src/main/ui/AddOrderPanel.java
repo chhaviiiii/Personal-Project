@@ -16,6 +16,7 @@ public class AddOrderPanel extends JPanel {
     private JComboBox<String> productTypeDropdown;
     private JTextField productPriceField;
 
+    // EFFECTS: Adds a JPanel that contains the form for adding orders,
     public AddOrderPanel(OrderManager orderManager) {
         this.orderManager = orderManager;
         setLayout(new BorderLayout());

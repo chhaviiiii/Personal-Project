@@ -86,5 +86,6 @@ public class OrderReader {
     // Add an order to the existing list of orders
     public void addOrder(Order newOrder, List<Order> existingOrders) {
         existingOrders.add(newOrder);
+        EventLog.getInstance().logEvent(new Event("Type of Product: " + newOrder));
     }
 }

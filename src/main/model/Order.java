@@ -56,11 +56,21 @@ public class Order implements Writable {
         this.productsToSell = productsToSell;
     }
 
+    // REQUIRES: OrderID must be non-null
+    // MODIFIES: this
+    // EFFECTS: Sets the orderID
+    public static void searchOrderID(String orderID, boolean isOrderFound) {
+        String logMessage = isOrderFound ? "Order found for ID: " : "Order not found for ID: ";
+        EventLog.getInstance().logEvent(new Event(logMessage + orderID));
+    }
+
+
     // REQUIRES: product must be non-null
     // MODIFIES: this
     // EFFECTS: Adds a product to the product list
     public void addProductToSell(Product product) {
         this.productsToSell.add(product);
+        EventLog.getInstance().logEvent(new Event("Products added to Order: " + productsToSell));
     }
 
     // REQUIRES: product must be non-null
@@ -75,6 +85,7 @@ public class Order implements Writable {
     // EFFECTS: Updates the order's status
     public void updateOrderStatus(OrderStatus newStatus) {
         orderStatus = newStatus;
+        EventLog.getInstance().logEvent(new Event("Order Status updated: " + newStatus));
     }
 
     // EFFECTS: Returns product details

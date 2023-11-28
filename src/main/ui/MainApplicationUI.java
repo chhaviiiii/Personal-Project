@@ -1,5 +1,9 @@
 package ui;
 
+
+import model.Event;
+import model.EventLog;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
@@ -17,6 +21,8 @@ public class MainApplicationUI extends JFrame {
     private final AddOrderPanel addOrderPanel;
     private final OrderSearchPanel orderSearchPanel;
     private final OrderStatusUpdatePanel orderStatusUpdatePanel;
+
+
 
     // EFFECTS: Initializes the main user interface for the application, including order management, order searching,
     // and order status update panels. Sets up the UI layout and appearance.
@@ -88,34 +94,81 @@ public class MainApplicationUI extends JFrame {
     // Calls showSplashScreen method to display the splash screen.
     // MODIFIES: Modifies this object (MainApplicationUI), setting up and arranging its internal components.
     private void initializeUI() {
+        createMenuBar();
+        setupImagePanel();
+        setupMainPanel();
+        setupWindowListener();
+        showSplashScreen();
+    }
+
+    // EFFECTS: Creates and sets the menu bar for the application window.
+    // REQUIRES: orderManager must be initialized.
+    // MODIFIES: this (MainApplicationUI object)
+    private void createMenuBar() {
         setJMenuBar(new MenuBuilder(orderManager).createMenuBar());
+    }
 
-        //Image
-        JPanel imagePanel = createImagePanel();
+    // EFFECTS: Creates and adds the image panel to the main application window.
+    // MODIFIES: this (MainApplicationUI object)
+    private void setupImagePanel() {
+        JPanel imagePanel = createImagePanel(); // Image
         add(imagePanel, BorderLayout.NORTH);
-        // Layout setup
+    }
 
-        JPanel mainPanel = new JPanel(new BorderLayout());
+    // EFFECTS: Initializes and configures the main panel, including setting up the table, top panel, and bottom panel.
+    // REQUIRES: orderTableModel must be initialized.
+    // MODIFIES: this (MainApplicationUI object)
+    private void setupMainPanel() {
+        JPanel mainPanel = new JPanel(new BorderLayout()); // Layout setup
         mainPanel.setBackground(Color.BLACK);
 
-        // Table setup
-        productTable = new JTable(orderTableModel);
+        setupTable(mainPanel);
+        setupTopPanel(mainPanel);
+        setupBottomPanel(mainPanel);
+
+        add(mainPanel);
+    }
+
+    // EFFECTS: Initializes the table for displaying data and adds it to the main panel.
+    // REQUIRES: orderTableModel must be initialized and mainPanel must be provided as an argument.
+    // MODIFIES: mainPanel (JPanel object)
+    private void setupTable(JPanel mainPanel) {
+        productTable = new JTable(orderTableModel); // Table setup
         customizeTable(productTable);
         mainPanel.add(new JScrollPane(productTable), BorderLayout.CENTER);
+    }
 
-        // Top panel setup
-        JPanel topPanel = new JPanel(new BorderLayout());
+    // EFFECTS: Sets up the top panel with AddOrderPanel and OrderSearchPanel and adds it to the main panel.
+    // REQUIRES: addOrderPanel and orderSearchPanel must be initialized and mainPanel must be provided as an argument.
+    // MODIFIES: mainPanel (JPanel object)
+    private void setupTopPanel(JPanel mainPanel) {
+        JPanel topPanel = new JPanel(new BorderLayout()); // Top panel setup
         topPanel.setOpaque(false);
         topPanel.add(addOrderPanel, BorderLayout.WEST);
         topPanel.add(orderSearchPanel, BorderLayout.EAST);
         mainPanel.add(topPanel, BorderLayout.NORTH);
+    }
 
-        // Bottom panel setup
-        orderStatusUpdatePanel.setOpaque(false);
+    // EFFECTS: Sets up the bottom panel with OrderStatusUpdatePanel and adds it to the main panel.
+    // REQUIRES: orderStatusUpdatePanel must be initialized and mainPanel must be provided as an argument.
+    // MODIFIES: mainPanel (JPanel object)
+    private void setupBottomPanel(JPanel mainPanel) {
+        orderStatusUpdatePanel.setOpaque(false); // Bottom panel setup
         mainPanel.add(orderStatusUpdatePanel, BorderLayout.SOUTH);
+    }
 
-        add(mainPanel);
-        showSplashScreen();
+    // EFFECTS: Adds a window listener that, iterates over the EventLog and prints each event to the console.
+    // REQUIRES: EventLog must be accessible.
+    // MODIFIES: this (MainApplicationUI object
+    private void setupWindowListener() {
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                for (Event event : EventLog.getInstance()) {
+                    System.out.println(event);
+                }
+            }
+        });
     }
 
 

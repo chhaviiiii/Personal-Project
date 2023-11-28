@@ -1,7 +1,7 @@
 package model;
 
-import java.util.List;
 
+import java.util.List;
 
 
 // REQUIRES: A list of Product objects. The list can be null.
@@ -12,11 +12,14 @@ import java.util.List;
 // If it is ProductType.MAKEUP, orderID is "o4". Returns the final orderID string.
 public class OrderID {
 
+
     // Sets the orderID
     public String orderID() {
         return "o";
     }
 
+    // requires List of Products
+    // effects: generates an order ID according to the type of product
     public static String generateOrderID(List<Product> products) {
         String orderID = "o";
         if (products == null) {
@@ -24,13 +27,13 @@ public class OrderID {
         }
         for (Product product : products) {
             if (Product.getProductType() == ProductType.CLOTHES) {
-                orderID = "C" + (int)(Math.random() * 99);
+                orderID = "C" + (int) (Math.random() * 99);
             } else if (Product.getProductType() == ProductType.ELECTRONICS) {
-                orderID = "E" + (int)(Math.random() * 99);
+                orderID = "E" + (int) (Math.random() * 99);
             } else if (Product.getProductType() == ProductType.FOOD) {
-                orderID = "F" + (int)(Math.random() * 99);
+                orderID = "F" + (int) (Math.random() * 99);
             } else if (Product.getProductType() == ProductType.MAKEUP) {
-                orderID = "M" + (int)(Math.random() * 99);
+                orderID = "M" + (int) (Math.random() * 99);
             }
         }
         return orderID;

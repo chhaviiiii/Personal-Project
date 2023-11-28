@@ -18,6 +18,9 @@ public class OrderTracker {
     private final OrderWriter jsonWriter;
     private final OrderReader jsonReader;
 
+    // Constructs an OrderReader to read from the specified source file
+    // Constructs an ArrayList of Orders
+    // Constructs an OrderWriter to write from the specified source file
     public OrderTracker() {
         orders = new ArrayList<>();
         jsonWriter = new OrderWriter(JSON_STORE);
@@ -274,6 +277,7 @@ public class OrderTracker {
 
     }
 
+    // main
     public static void main(String[] args) {
         OrderTracker orderTracker = new OrderTracker();
         orderTracker.start();

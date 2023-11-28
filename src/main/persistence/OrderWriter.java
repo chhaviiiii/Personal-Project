@@ -1,5 +1,7 @@
 package persistence;
 
+import model.Event;
+import model.EventLog;
 import model.Order;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -57,5 +59,6 @@ public class OrderWriter {
     // EFFECTS: Writes a string to the file
     private void saveToFile(String json) {
         writer.print(json);
+        EventLog.getInstance().logEvent(new Event("Orders saved to File"));
     }
 }

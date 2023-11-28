@@ -13,11 +13,11 @@ import java.util.Optional;
 
 // Functions of the application and how the order is managed or searched for
 public class OrderManager {
-    private List<Order> orders;
     private final OrderWriter jsonWriter;
     private final OrderReader jsonReader;
     private final OrderTableModel orderTableModel;
     private final JFrame parentFrame;
+    private List<Order> orders;
 
     // REQUIRES: jsonStorePath should be a valid file path
     // EFFECTS: Initializes an OrderManager with a list of orders, JSON writer and reader for order persistence
@@ -51,6 +51,7 @@ public class OrderManager {
                 order.updateOrderStatus(newStatus);
                 refreshUI();
                 return;
+
             }
         }
         JOptionPane.showMessageDialog(parentFrame, "Order ID not found.");
@@ -97,7 +98,8 @@ public class OrderManager {
             JOptionPane.showMessageDialog(parentFrame, "Error loading active orders: " + ex.getMessage());
             System.err.println("Error loading orders: " + ex); // Debug statement
         }
-        refreshUI(); // Refresh UI regardless of success or failure
+        refreshUI();
+
     }
 
     // REQUIRES: customerName should be a non-empty string.
